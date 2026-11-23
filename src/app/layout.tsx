@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
+// Global tokens and reset first, so the CSS Modules imported below come after them.
 import "./globals.css";
+import { AppLayout } from "@/layouts";
+import { SessionNavContainer } from "@/pods/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -16,7 +19,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="es">
-      <body>{children}</body>
+      <body>
+        <AppLayout nav={<SessionNavContainer />}>{children}</AppLayout>
+      </body>
     </html>
   );
 }

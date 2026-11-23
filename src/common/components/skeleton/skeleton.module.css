@@ -1,0 +1,41 @@
+.block {
+  display: block;
+  border-radius: var(--radius-sm);
+  background-color: light-dark(oklch(92% 0.012 70), oklch(30% 0.014 60));
+}
+
+/* Decorative shimmer: only when the person has not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .block {
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      light-dark(oklch(100% 0 0 / 0.55), oklch(100% 0 0 / 0.06)) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+.text {
+  display: grid;
+}
+
+/* A line of text: 1lh tall; the block is a bit shorter and centred, like the glyphs. */
+.line {
+  block-size: 1lh;
+  inline-size: min(100%, 22rem);
+  background-clip: content-box;
+  padding-block: 0.25lh;
+}

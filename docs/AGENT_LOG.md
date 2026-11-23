@@ -27,3 +27,9 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - Spec: specs/001-recetario.md (AC-6, AC-9, AC-10)
 - Vuelta 1 · Develop: migración `0001_recipes.sql` (límites de R2 como `check`, trigger `updated_at`, RLS con 4 políticas y `revoke` a `anon`, `search_text` sin tildes con índice trigram, índices por consulta), modelo de dominio y `npm run db:check-rls` (12/12 con rollback) · Testing: **PASS** (verificado contra la BD real; observaciones: revocar TRUNCATE/REFERENCES/TRIGGER a `authenticated` y EXECUTE de las funciones auxiliares a `anon`; T-04 debe usar `RECIPE_LIMITS` y T-05 `normalizeSearchTerm`)
 - Commit: b49b139
+
+## T-03 · Autenticación y protección de rutas
+- Spec: specs/001-recetario.md (AC-1, AC-2, AC-3, AC-4)
+- Vuelta 1 · Develop: pod `auth` (login y registro con Server Actions + Zod, errores por campo accesibles, `useActionState`), `requireUser()` con `getUser()` en servidor, redirección optimista en `proxy.ts`, logout, nav de sesión con skeleton, migración `0002_harden_grants.sql` · Testing: **FAIL** (D-21: con `cacheComponents` activo, sin JavaScript un envío con error devolvía una página en blanco; propuso y comprobó quitar `cacheComponents`/`partialPrefetching`)
+- (Humano) Se desactiva «Confirm email» en Supabase; el registro pasa a entrar directamente.
+- Vuelta 2 · Develop: `next.config.ts` sin `cacheComponents` ni `partialPrefetching` (rutas dinámicas), tests reetiquetados · Testing: **PASS** (errores visibles sin JS en login y registro, registro de punta a punta, AC-1…AC-4 en vivo; recomienda sacar el nav de sesión del `<Suspense>` para que funcione sin JS)

@@ -42,12 +42,32 @@
   color: var(--color-accent);
 }
 
+/*
+ * The session navigation streams in after the shell (skeleton first). To keep the header height
+ * stable, the nav always sits on its own row on narrow screens and never wraps on wide ones; its
+ * content is one 44 px row whose email shrinks with an ellipsis.
+ */
 .nav {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
+  justify-content: flex-start;
+  flex: 1 1 100%;
   min-inline-size: 0;
+}
+
+.nav > * {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+}
+
+@media (width >= 48rem) {
+  .headerInner {
+    flex-wrap: nowrap;
+  }
+
+  .nav {
+    flex: 1 1 0;
+    justify-content: flex-end;
+  }
 }
 
 .main {

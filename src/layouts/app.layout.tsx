@@ -4,7 +4,7 @@ import styles from "./app.layout.module.css";
 
 interface Props {
   children: ReactNode;
-  /** Header navigation slot (session links arrive in T-03). */
+  /** Header navigation slot (session links from the auth pod). */
   nav?: ReactNode;
 }
 

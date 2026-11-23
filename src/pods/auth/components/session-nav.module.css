@@ -1,0 +1,85 @@
+/* One row, always 44 px high: the real navigation and its skeleton share this box. */
+.list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  min-block-size: var(--tap-target);
+  min-inline-size: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list > li {
+  flex: none;
+}
+
+.link,
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap-target);
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.link {
+  color: var(--color-text);
+}
+
+.link:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.primary {
+  padding-inline: var(--space-4);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.primary:hover {
+  background-color: light-dark(oklch(46% 0.16 40), oklch(80% 0.13 50));
+}
+
+.secondary {
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* The email gives way first on narrow screens (ellipsis; full value in `title`). */
+.list > li.email {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.skeletonLink,
+.skeletonButton {
+  block-size: var(--tap-target);
+  border-radius: var(--radius-pill);
+}
+
+.skeletonLink {
+  inline-size: 5.5rem;
+}
+
+.skeletonButton {
+  inline-size: 8.5rem;
+}

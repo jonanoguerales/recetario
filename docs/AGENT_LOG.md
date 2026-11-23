@@ -38,3 +38,4 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 ## T-03b · Navegación de sesión visible sin JavaScript
 - Origen: recomendación de Testing al cerrar T-03 (D-21/D-22)
 - Vuelta 1 · Develop: `SessionNavContainer` async sin `<Suspense>` en el layout raíz; borrado el skeleton que ya no se usaba · Testing: **PASS** (sin JS: cabecera completa con y sin sesión, logout 303 a `/`, error de login con página completa; observaciones: comentarios desactualizados en `auth.scenes.tsx` y `guards.container.tsx`)
+- Commit: ec2c782

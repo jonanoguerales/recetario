@@ -21,3 +21,4 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 ## T-01 · Base técnica
 - Spec: specs/001-recetario.md (infraestructura, sin AC-n propios)
 - Vuelta 1 · Develop: scripts (typecheck, test, db:migrate), Vitest, tokens light-dark/oklch, AppLayout, `env.ts` con errores claros, clientes Supabase (servidor/navegador), `proxy.ts` de sesión y migrador SQL con `max_pipeline: 1` · Testing: **PASS** (build verificado sin `.env.local`; observaciones: añadir `server-only` y tener en cuenta `cacheComponents` con `<Suspense>`)
+- Commit: 6774cd2

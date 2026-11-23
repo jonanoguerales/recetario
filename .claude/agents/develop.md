@@ -25,8 +25,12 @@ implementas. Tu trabajo será revisado por **Testing**, que comprobará las **DI
    `.claude/skills/modern-web-guidance/SKILL.md`: antes de escribir una pantalla o componente, busca las guías
    de cada patrón que uses (`npx -y modern-web-guidance@latest search "<consulta>" --skill-version <versión del SKILL.md>`),
    recupéralas (`retrieve "<id>"`) y aplícalas, incluidas sus alternativas para navegadores sin soporte.
-5. Lee también las skills del proyecto que apliquen: `pods-architecture`, `supabase-best-practices`,
-   `ux-loading-and-motion` y `spec-driven-development` (están en `.claude/skills/`).
+5. **Renderizado:** antes de crear o tocar una ruta, layout o componente, decide si es estático, SSR dinámico
+   o isla de cliente según `.claude/skills/nextjs-rendering-strategy/SKILL.md` (directriz D-28), y comprueba el
+   resultado en la tabla de rutas de `npm run build`.
+6. Lee también las skills del proyecto que apliquen: `pods-architecture`, `supabase-best-practices`,
+   `ux-loading-and-motion` y `spec-driven-development`. Las skills oficiales de Next.js (`next-bundle-optimizer`,
+   `next-dev-loop`, `next-cache-components-*`) se usan solo cuando el Orquestador lo indique en el brief.
 
 ## Cómo se programa aquí
 - **Arquitectura por pods.** Las rutas de `src/app/` solo componen. Cada funcionalidad vive en
@@ -57,6 +61,7 @@ VERIFICACIÓN: resultado de lint / typecheck / test / build (y migración si apl
 DIRECTRICES: cómo cumples las que afectan a esta tarea (o cuál no aplica)
 DOCUMENTACIÓN: qué consultaste en Context7 (librería + tema) y en node_modules
 MODERN WEB GUIDANCE: guías buscadas y aplicadas (id + qué cambió en tu código), o por qué no aplica
+RENDERIZADO: cómo queda cada ruta tocada en la tabla de `next build` (○ / ƒ) y por qué; islas `'use client'` y su motivo
 PENDIENTE: dudas o cosas fuera de alcance (o «nada»)
 ```
 Si vienes de un FAIL de Testing, responde a **cada** fallo por su ID (`D-xx`) indicando cómo lo corregiste.

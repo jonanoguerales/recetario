@@ -15,6 +15,7 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 | T-05 | Pod `recipe-list`: listado, búsqueda, filtros en la URL, estado vacío, skeleton | 001 · AC-8, AC-9, AC-12 |
 | T-06 | Pod `recipe-detail`: detalle, favorita y borrar con confirmación | 001 · AC-7, AC-10, AC-11 |
 | T-07 | Portada pública y usuario de prueba con recetas de ejemplo | 001 · R7, R8 |
+| T-08 | Renderizado por sección (grupos de rutas, portada estática) y revisión de lo ya hecho con Modern Web Guidance | 001 · AC-12, AC-13 |
 
 ## Tareas
 

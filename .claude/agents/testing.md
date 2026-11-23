@@ -56,6 +56,12 @@ Puedes ejecutar comandos de lectura y verificación (lint, tests, build, `git di
   (Next.js, Supabase, Zod…), compruébalo con **Context7** (`mcp__context7__query-docs`) o con la doc del paquete
   en `node_modules`, y cita la fuente en el fallo.
 
+### Renderizado (Next.js)
+- **D-28** Cada ruta se renderiza como dice la skill `nextjs-rendering-strategy`: la portada y `not-found`
+  **estáticas** (○ en `next build`), la zona privada SSR dinámica con streaming, y Client Components solo como
+  islas justificadas. El layout raíz no lee la sesión. Sin carga de datos desde el cliente con `useEffect`.
+  Comprueba la tabla de rutas del build y busca `'use client'` en el diff.
+
 ### Calidad
 - **D-30** `lint`, `typecheck`, `test` y `build` en verde.
 - **D-31** La lógica pura nueva (validaciones, mappers, utilidades) tiene tests; los tests nombran su `AC-n`.

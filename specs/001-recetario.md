@@ -39,6 +39,9 @@ por el equipo de agentes (Orquestador, Develop y Testing).
   también desde la API de Supabase.
 - **AC-11** Marcar favorita se refleja en el detalle y en el filtro de favoritas.
 - **AC-12** Ninguna pantalla salta al cargar (skeletons) y todo se usa bien en móvil (375 px) y con teclado.
+- **AC-13** Cada sección usa el renderizado que mejor le conviene (skill `nextjs-rendering-strategy`): la portada
+  y la página 404 son **estáticas**; la zona privada es **SSR dinámico** con streaming; el JavaScript de cliente
+  se limita a islas justificadas (estado pendiente, confirmar borrado, favorita optimista).
 
 ## Contratos
 - Tabla `public.recipes` (ver migraciones en `supabase/migrations/`), RLS por `user_id = auth.uid()`.

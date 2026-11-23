@@ -57,9 +57,14 @@ y edita sus recetas. Spec principal: `specs/001-recetario.md`.
 
 ## Skills y MCP (las usan Develop y Testing)
 Todas en `.claude/skills/`: `pods-architecture` · `supabase-best-practices` · `spec-driven-development` ·
-`ux-loading-and-motion` · `context7-docs` · `modern-web-guidance` (oficial de Google Chrome, instalada en el
-proyecto con `npx skills add GoogleChrome/modern-web-guidance --copy`; versión fijada en `skills-lock.json`).
+`ux-loading-and-motion` · `nextjs-rendering-strategy` (estático / SSR / isla de cliente por sección) ·
+`context7-docs` · `modern-web-guidance` (oficial de Google Chrome) · skills oficiales de Next.js
+`next-bundle-optimizer`, `next-dev-loop`, `next-cache-components-adoption` y `next-cache-components-optimizer`
+(de `vercel/next.js`; el antiguo `vercel-labs/next-skills` está retirado y sus buenas prácticas vienen ahora en
+`node_modules/next/dist/docs/`). Las externas se instalan con `npx skills add … --copy` y su versión queda fijada
+en `skills-lock.json`.
 MCP **Context7** declarado en `.mcp.json`; Develop y Testing tienen sus herramientas en su `tools:`.
 
 En cada brief recuérdale a Develop que **Modern Web Guidance es obligatoria** para todo HTML/CSS/JS de cliente
-(directriz D-26) y que consulte **Context7** antes de usar la API de una librería (D-27).
+(directriz D-26), que consulte **Context7** antes de usar la API de una librería (D-27) y que cada ruta siga la
+**estrategia de renderizado** (D-28).

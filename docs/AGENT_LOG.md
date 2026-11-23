@@ -26,3 +26,4 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 ## T-02 · Esquema de recetas con RLS
 - Spec: specs/001-recetario.md (AC-6, AC-9, AC-10)
 - Vuelta 1 · Develop: migración `0001_recipes.sql` (límites de R2 como `check`, trigger `updated_at`, RLS con 4 políticas y `revoke` a `anon`, `search_text` sin tildes con índice trigram, índices por consulta), modelo de dominio y `npm run db:check-rls` (12/12 con rollback) · Testing: **PASS** (verificado contra la BD real; observaciones: revocar TRUNCATE/REFERENCES/TRIGGER a `authenticated` y EXECUTE de las funciones auxiliares a `anon`; T-04 debe usar `RECIPE_LIMITS` y T-05 `normalizeSearchTerm`)
+- Commit: b49b139

@@ -34,3 +34,7 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - (Humano) Se desactiva «Confirm email» en Supabase; el registro pasa a entrar directamente.
 - Vuelta 2 · Develop: `next.config.ts` sin `cacheComponents` ni `partialPrefetching` (rutas dinámicas), tests reetiquetados · Testing: **PASS** (errores visibles sin JS en login y registro, registro de punta a punta, AC-1…AC-4 en vivo; recomienda sacar el nav de sesión del `<Suspense>` para que funcione sin JS)
 - Commit: 588ec9f
+
+## T-03b · Navegación de sesión visible sin JavaScript
+- Origen: recomendación de Testing al cerrar T-03 (D-21/D-22)
+- Vuelta 1 · Develop: `SessionNavContainer` async sin `<Suspense>` en el layout raíz; borrado el skeleton que ya no se usaba · Testing: **PASS** (sin JS: cabecera completa con y sin sesión, logout 303 a `/`, error de login con página completa; observaciones: comentarios desactualizados en `auth.scenes.tsx` y `guards.container.tsx`)

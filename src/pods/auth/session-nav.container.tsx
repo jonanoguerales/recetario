@@ -1,22 +1,14 @@
-import { Suspense } from "react";
 import { getCurrentUser } from "@/core/auth";
 import { logoutAction } from "./auth.actions";
 import { mapSessionUserToNavVm } from "./auth.mappers";
-import { SessionNavComponent, SessionNavSkeleton } from "./components/session-nav.component";
-
-async function SessionNavContent() {
-  const user = await getCurrentUser();
-  return <SessionNavComponent session={mapSessionUserToNavVm(user)} logoutAction={logoutAction} />;
-}
+import { SessionNavComponent } from "./components/session-nav.component";
 
 /**
- * Header navigation that depends on the session. The session is read at request time, so it
- * streams in behind <Suspense> with a skeleton of the same size (D-22).
+ * Header navigation that depends on the session. It is rendered without <Suspense> so it arrives
+ * complete in the server HTML: it works without JavaScript (logout form included) and the header
+ * never swaps a placeholder for the real links. getCurrentUser() is memoised per request.
  */
-export function SessionNavContainer() {
-  return (
-    <Suspense fallback={<SessionNavSkeleton />}>
-      <SessionNavContent />
-    </Suspense>
-  );
+export async function SessionNavContainer() {
+  const user = await getCurrentUser();
+  return <SessionNavComponent session={mapSessionUserToNavVm(user)} logoutAction={logoutAction} />;
 }

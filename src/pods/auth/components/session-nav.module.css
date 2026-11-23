@@ -1,4 +1,4 @@
-/* One row, always 44 px high: the real navigation and its skeleton share this box. */
+/* One row, always 44 px high, with or without a session, so the header keeps its height. */
 .list {
   display: flex;
   flex-wrap: nowrap;
@@ -70,16 +70,3 @@
   white-space: nowrap;
 }
 
-.skeletonLink,
-.skeletonButton {
-  block-size: var(--tap-target);
-  border-radius: var(--radius-pill);
-}
-
-.skeletonLink {
-  inline-size: 5.5rem;
-}
-
-.skeletonButton {
-  inline-size: 8.5rem;
-}

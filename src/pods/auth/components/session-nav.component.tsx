@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ROUTES } from "@/core/auth";
-import { SkeletonBlock, SkeletonStatus } from "@/common/components/skeleton";
 import type { SessionNavVm } from "../auth.vm";
 import styles from "./session-nav.module.css";
 
@@ -50,12 +49,3 @@ export function SessionNavComponent({ session, logoutAction }: Props) {
   );
 }
 
-/** Same box as the navigation (one row of 44 px) so the header does not jump when the session arrives. */
-export function SessionNavSkeleton() {
-  return (
-    <SkeletonStatus label="Cargando tu sesión…" className={styles.list}>
-      <SkeletonBlock className={styles.skeletonLink} />
-      <SkeletonBlock className={styles.skeletonButton} />
-    </SkeletonStatus>
-  );
-}

@@ -1,0 +1,48 @@
+# 001 — Recetario
+Estado: Aprobada
+
+## Contexto
+App web para guardar, buscar y organizar recetas propias. Cada persona inicia sesión y solo ve y edita
+sus recetas. Tema libre de la prueba técnica: lo importante es una app completa, segura y bien construida
+por el equipo de agentes (Orquestador, Develop y Testing).
+
+## Requisitos
+- **R1 Autenticación** con email y contraseña (Supabase Auth): registro, inicio y cierre de sesión.
+- **R2 Recetas** con: título (3–120 caracteres), descripción opcional (≤ 500), categoría
+  (`desayuno`, `entrante`, `principal`, `postre`, `bebida`, `otro`), tiempo en minutos (1–1440),
+  raciones (1–50), ingredientes (lista de 1–50 elementos de ≤ 120 caracteres), pasos (lista de 1–30
+  elementos de ≤ 600 caracteres) y favorita (sí/no).
+- **R3 Crear, ver, editar y borrar** recetas propias. Borrar pide confirmación.
+- **R4 Listado** de mis recetas, de la más reciente a la más antigua, con **búsqueda** por título o
+  ingrediente y **filtros** por categoría y por favoritas. Los filtros se reflejan en la URL (se pueden compartir
+  y funcionan con «atrás»).
+- **R5 Marcar y desmarcar favorita** desde el detalle.
+- **R6 Privacidad**: nadie puede leer ni modificar recetas de otra persona, ni siquiera llamando a la API de
+  Supabase directamente (RLS).
+- **R7 Usuario de prueba** con recetas de ejemplo para que el evaluador vea la app con datos.
+- **R8 Portada pública** que explica la app e invita a entrar o registrarse.
+
+## Criterios de aceptación
+- **AC-1** Sin sesión, ir a `/recetas` (o cualquier ruta privada) redirige a `/login`.
+- **AC-2** Con credenciales correctas se entra y se llega a `/recetas`; con incorrectas se ve un error claro
+  sin revelar si el email existe.
+- **AC-3** El registro valida email y contraseña (mínimo 8 caracteres) y muestra los errores junto al campo.
+- **AC-4** Cerrar sesión lleva a la portada y las rutas privadas vuelven a pedir login.
+- **AC-5** Crear una receta válida la guarda y lleva a su detalle; una inválida muestra los errores por campo
+  y conserva lo escrito.
+- **AC-6** Las reglas de R2 se validan en el servidor (Zod) y en la base de datos (`check`).
+- **AC-7** Editar una receta guarda los cambios; borrarla pide confirmación y vuelve al listado.
+- **AC-8** El listado muestra solo mis recetas, ordenadas por fecha, con un estado vacío que invita a crear la primera.
+- **AC-9** La búsqueda encuentra por título y por ingrediente (sin distinguir mayúsculas ni tildes) y se combina
+  con los filtros de categoría y favoritas; todo queda en la URL.
+- **AC-10** Un usuario no puede ver ni editar la receta de otro (404) aunque conozca su id, y RLS lo impide
+  también desde la API de Supabase.
+- **AC-11** Marcar favorita se refleja en el detalle y en el filtro de favoritas.
+- **AC-12** Ninguna pantalla salta al cargar (skeletons) y todo se usa bien en móvil (375 px) y con teclado.
+
+## Contratos
+- Tabla `public.recipes` (ver migraciones en `supabase/migrations/`), RLS por `user_id = auth.uid()`.
+- Rutas: `/` (pública) · `/login` · `/registro` · `/recetas` · `/recetas/nueva` · `/recetas/[id]` · `/recetas/[id]/editar`.
+
+## Fuera de alcance
+Imágenes de recetas, compartir recetas entre usuarios, recuperación de contraseña por email.

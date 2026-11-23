@@ -1,7 +1,7 @@
 ---
 name: testing
 description: Subagente revisor del Recetario. Úsalo después de cada entrega de Develop para comprobar que cumple las DIRECTRICES y los criterios de la spec; devuelve VEREDICTO PASS o FAIL con la lista de fallos. No modifica código.
-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash, mcp__context7__resolve-library-id, mcp__context7__query-docs
 model: inherit
 ---
 
@@ -48,6 +48,13 @@ Puedes ejecutar comandos de lectura y verificación (lint, tests, build, `git di
 - **D-23** Responsive sin scroll horizontal a 375 px; objetivos táctiles de al menos 44 px de alto.
 - **D-24** Contraste suficiente en claro y oscuro; animaciones que respetan `prefers-reduced-motion`.
 - **D-25** Textos de la interfaz en español, claros y sin jerga técnica.
+- **D-26** Todo HTML, CSS y JS de cliente nuevo o modificado sigue **Modern Web Guidance**
+  (`.claude/skills/modern-web-guidance/`): Develop indica en su informe qué guías consultó y aplicó, y el código
+  cumple sus reglas obligatorias (MANDATORY) y sus alternativas para navegadores sin soporte. Para comprobarlo,
+  recupera tú las mismas guías (`npx -y modern-web-guidance@latest retrieve "<id>"`) y contrástalas con el diff.
+- **D-27** El uso de APIs de librerías coincide con su documentación actual: si dudas de una firma o patrón
+  (Next.js, Supabase, Zod…), compruébalo con **Context7** (`mcp__context7__query-docs`) o con la doc del paquete
+  en `node_modules`, y cita la fuente en el fallo.
 
 ### Calidad
 - **D-30** `lint`, `typecheck`, `test` y `build` en verde.

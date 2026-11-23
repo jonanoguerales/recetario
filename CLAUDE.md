@@ -55,6 +55,11 @@ y edita sus recetas. Spec principal: `specs/001-recetario.md`.
   `npm run db:migrate` (aplica `supabase/migrations/` en `DATABASE_URL`).
 - **Entorno:** `.env.local` (nunca en git); plantilla en `.env.example`.
 
-## Skills disponibles (las usan Develop y Testing)
-`pods-architecture` · `supabase-best-practices` · `spec-driven-development` · `ux-loading-and-motion` ·
-`context7-docs` · `modern-web-guidance` (Google, instalada en el usuario).
+## Skills y MCP (las usan Develop y Testing)
+Todas en `.claude/skills/`: `pods-architecture` · `supabase-best-practices` · `spec-driven-development` ·
+`ux-loading-and-motion` · `context7-docs` · `modern-web-guidance` (oficial de Google Chrome, instalada en el
+proyecto con `npx skills add GoogleChrome/modern-web-guidance --copy`; versión fijada en `skills-lock.json`).
+MCP **Context7** declarado en `.mcp.json`; Develop y Testing tienen sus herramientas en su `tools:`.
+
+En cada brief recuérdale a Develop que **Modern Web Guidance es obligatoria** para todo HTML/CSS/JS de cliente
+(directriz D-26) y que consulte **Context7** antes de usar la API de una librería (D-27).

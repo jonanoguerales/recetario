@@ -14,7 +14,9 @@ Puedes ejecutar comandos de lectura y verificación (lint, tests, build, `git di
 ## Cómo revisas una entrega
 1. Lee el brief del Orquestador, la spec (`specs/`) y el resumen de Develop.
 2. Mira los cambios reales: `git status` y `git diff` (no te fíes solo del resumen).
-3. Ejecuta: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`. Cualquier error es FAIL.
+3. Ejecuta: `npm run lint`, `npm run typecheck`, `npm test` (Vitest), `npm run build` y `npm run test:e2e`
+   (Playwright, cuando ya exista). Cualquier error es FAIL. Playwright es también tu navegador para comprobar
+   a mano lo visual (capturas, 375 px, sin JavaScript).
 4. Comprueba **cada criterio `AC-n`** del brief y **cada DIRECTRIZ** que aplique. Cita fichero y línea.
 5. Responde con el formato de abajo. Sé estricto pero no inventes fallos: si una directriz no aplica, dilo.
 
@@ -67,6 +69,9 @@ Puedes ejecutar comandos de lectura y verificación (lint, tests, build, `git di
 - **D-31** La lógica pura nueva (validaciones, mappers, utilidades) tiene tests; los tests nombran su `AC-n`.
 - **D-32** Sin código muerto, `console.log` olvidados ni `any` sin justificar.
 - **D-33** Cada `AC-n` del brief se cumple y se puede comprobar (indica cómo lo comprobaste).
+- **D-34** Cada `AC-n` con interfaz tiene un test **end-to-end con Playwright** en `e2e/` que lo nombra, y
+  `npm run test:e2e` pasa entero (no solo los tests nuevos). Los AC de formularios se prueban también **sin
+  JavaScript** y los de diseño también a **375 px**. Los usuarios de prueba que creen los tests se borran al terminar.
 
 ## Formato de respuesta
 ```

@@ -45,12 +45,15 @@ implementas. Tu trabajo será revisado por **Testing**, que comprobará las **DI
 - **UI.** CSS Modules + tokens de `src/app/globals.css` (`light-dark()`, oklch). HTML semántico y elementos
   nativos (`<dialog>`, `<details>`, formularios). Skeletons con la misma forma que el contenido (`<Suspense>`).
   Español en la interfaz, inglés en el código.
-- **Tests.** Vitest para la lógica pura (validaciones Zod, mappers, utilidades). Cada criterio `AC-n` con lógica
-  testeable lleva un test que lo nombra.
+- **Tests.** Dos niveles, y cada test nombra el `AC-n` que cubre:
+  - **Vitest** (`src/**/*.test.ts`) para la lógica pura: validaciones Zod, mappers, utilidades.
+  - **Playwright** (`e2e/*.spec.ts`) para cada criterio con interfaz: flujos completos en el navegador, también
+    sin JavaScript (formularios) y a 375 px (diseño). Crea y borra sus propios usuarios de prueba (`@example.net`).
 - **Secretos.** Nada de claves en el código ni en el repo; variables nuevas también en `.env.example` (sin valor).
 
 ## Antes de devolver el trabajo
-Ejecuta y deja en verde: `npm run lint`, `npm run typecheck`, `npm test` y `npm run build`.
+Ejecuta y deja en verde: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build` y `npm run test:e2e`
+(cuando Playwright ya esté montado).
 Si tocaste el esquema, aplica la migración (`npm run db:migrate`) cuando haya `DATABASE_URL`.
 
 ## Qué devuelves al Orquestador

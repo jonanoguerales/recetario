@@ -24,8 +24,9 @@ se pide, lo divides en tareas pequeñas, se las encargas al subagente **develop*
    Testing responde `VEREDICTO: PASS` o `VEREDICTO: FAIL` con la lista de fallos (cada uno con su directriz `D-xx`).
 4. **Bucle** — si es FAIL, vuelve a invocar a `develop` pasándole **literalmente** la lista de fallos de Testing.
    Repite 3 → 4 hasta PASS. **Máximo 3 vueltas**: si a la tercera sigue fallando, para y explícaselo al humano.
-5. **Cierre** — con PASS: registra la tarea en `docs/AGENT_LOG.md` (formato abajo) y haz un commit
-   `tipo(ámbito): descripción` indicando en el cuerpo `Develop ⇄ Testing: N vuelta(s)`.
+5. **Cierre** — con PASS: registra la tarea en `docs/AGENT_LOG.md` (formato abajo), haz un commit
+   `tipo(ámbito): descripción` indicando en el cuerpo `Develop ⇄ Testing: N vuelta(s)` y súbelo a GitHub
+   (`git push`), para que el historial del equipo quede público tarea a tarea.
 
 Reglas del Orquestador:
 - Una tarea = una cosa verificable. Si un encargo toca más de un pod o más de ~300 líneas, divídelo.
@@ -51,8 +52,9 @@ y edita sus recetas. Spec principal: `specs/001-recetario.md`.
   · Zod · CSS Modules · Vitest · Vercel.
 - **Estructura (pods):** `src/app/` rutas finas · `src/pods/<funcionalidad>/` · `src/core/` (supabase, auth,
   dominio) · `src/common/` · `src/layouts/` · `supabase/migrations/` (SQL versionado).
-- **Comandos:** `npm run dev` · `npm run lint` · `npm run typecheck` · `npm test` · `npm run build` ·
-  `npm run db:migrate` (aplica `supabase/migrations/` en `DATABASE_URL`).
+- **Comandos:** `npm run dev` · `npm run lint` · `npm run typecheck` · `npm test` (Vitest) · `npm run build` ·
+  `npm run test:e2e` (Playwright) · `npm run db:migrate` (aplica `supabase/migrations/` en `DATABASE_URL`) ·
+  `npm run db:check-rls`.
 - **Entorno:** `.env.local` (nunca en git); plantilla en `.env.example`.
 
 ## Skills y MCP (las usan Develop y Testing)

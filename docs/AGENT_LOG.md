@@ -12,6 +12,7 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 | T-02 | Esquema `recipes` con RLS, `check` e índices (migración SQL) | 001 · AC-6, AC-10 |
 | T-03 | Autenticación: registro, login, logout y protección de rutas | 001 · AC-1…AC-4 |
 | T-04 | Pod `recipe-form`: crear y editar con Server Actions + Zod | 001 · AC-5…AC-7 |
+| T-04b | Tests end-to-end con Playwright (Chromium en el proyecto) para AC-1…AC-7, con y sin JavaScript y a 375 px | 001 · D-34 |
 | T-05 | Pod `recipe-list`: listado, búsqueda, filtros en la URL, estado vacío, skeleton | 001 · AC-8, AC-9, AC-12 |
 | T-06 | Pod `recipe-detail`: detalle, favorita y borrar con confirmación | 001 · AC-7, AC-10, AC-11 |
 | T-07 | Portada pública y usuario de prueba con recetas de ejemplo | 001 · R7, R8 |

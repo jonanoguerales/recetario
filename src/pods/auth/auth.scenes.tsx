@@ -5,7 +5,7 @@ import { GuestOnlyRedirect } from "./guards.container";
 import { LoginContainer } from "./login.container";
 import { RegisterContainer } from "./register.container";
 
-/** /login: sign-in form (static, works without JS) + server redirect when there is a session. */
+/** /login: sign-in form (arrives in the server HTML, works without JS) + server redirect when there is a session. */
 export function LoginScene() {
   return (
     <AuthPanelComponent
@@ -23,7 +23,7 @@ export function LoginScene() {
   );
 }
 
-/** /registro: sign-up form (static, works without JS) + server redirect when there is a session. */
+/** /registro: sign-up form (arrives in the server HTML, works without JS) + server redirect when there is a session. */
 export function RegisterScene() {
   return (
     <AuthPanelComponent

@@ -1,0 +1,241 @@
+/* Live error region + form; same max width and spacing as the form fields. */
+.root {
+  display: grid;
+  gap: var(--space-6);
+  max-inline-size: 48rem;
+  min-inline-size: 0;
+}
+
+.form {
+  display: grid;
+  gap: var(--space-6);
+  max-inline-size: 48rem;
+  min-inline-size: 0;
+}
+
+/* The live region stays in the DOM (announced when filled) but takes no space while empty. */
+.formError:empty {
+  display: none;
+}
+
+.formError {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid currentColor;
+  color: var(--color-danger);
+  background-color: light-dark(oklch(96% 0.03 27), oklch(26% 0.05 27));
+  font-weight: 600;
+}
+
+.legend {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.required {
+  margin-inline-start: 0.25em;
+  color: var(--color-danger);
+}
+
+.hint {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.control {
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 3rem;
+  padding: var(--space-2) var(--space-3);
+  /* --color-border-strong: ≥ 3:1 against the field and the page (the border is what shows the field). */
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  /* At least 1rem (avoids the automatic zoom of iOS Safari), growing with larger containers. */
+  font-size: max(1rem, 1em);
+}
+
+/* Numbers are short: a narrow control reads better than a full-width one. */
+.number {
+  max-inline-size: 12rem;
+}
+
+.control:hover {
+  border-color: var(--color-text-muted);
+}
+
+.control[aria-invalid="true"] {
+  border-color: var(--color-danger);
+  border-width: 2px;
+}
+
+/*
+ * Textareas grow with their content (field-sizing) between a minimum and a maximum height; past the
+ * maximum they scroll. The fixed inline size keeps the width stable while typing. Browsers without
+ * field-sizing keep the `rows` height and scroll, which is fine.
+ */
+.textarea {
+  field-sizing: content;
+  block-size: auto;
+  min-block-size: 6lh;
+  max-block-size: 20lh;
+  resize: vertical;
+  line-height: var(--leading-normal);
+}
+
+.short {
+  min-block-size: 3lh;
+  max-block-size: 10lh;
+}
+
+.fieldError {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.errorIcon {
+  flex: none;
+  inline-size: 1.1em;
+  block-size: 1.1em;
+  margin-block-start: 0.2em;
+}
+
+.errorIconMark {
+  stroke: var(--color-surface);
+}
+
+.errorIconDot {
+  fill: var(--color-surface);
+}
+
+/* Label after the checkbox; the row is a 48 px tall hit target. */
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-block-size: 3rem;
+}
+
+.checkbox {
+  inline-size: 1.25em;
+  aspect-ratio: 1;
+  margin: 0;
+  flex: none;
+  cursor: pointer;
+}
+
+.checkbox[aria-invalid="true"] {
+  outline: 2px solid var(--color-danger);
+  outline-offset: 2px;
+}
+
+.checkboxLabel {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 3rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/*
+ * The native checkbox takes the brand colour from `accent-color` (set on <body> in globals.css).
+ * Browsers without accent-color get a drawn box on the label instead; the real input stays in the
+ * accessibility tree and keeps keyboard focus (visually hidden, not display: none).
+ */
+@supports not (accent-color: auto) {
+  .checkboxRow {
+    position: relative;
+  }
+
+  .checkbox {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .checkboxLabel::before {
+    content: "";
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    inline-size: 1.25em;
+    aspect-ratio: 1;
+    margin-inline-end: var(--space-3);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    color: var(--color-accent-contrast);
+    line-height: 1;
+  }
+
+  .checkbox:checked + .checkboxLabel::before {
+    content: "✓";
+    content: "✓" / "";
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+  }
+
+  .checkbox:focus-visible + .checkboxLabel::before {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .checkbox[aria-invalid="true"] + .checkboxLabel::before {
+    border-color: var(--color-danger);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}
+
+.submit {
+  min-block-size: 3rem;
+  padding: var(--space-2) var(--space-6);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submit:hover:not(:disabled) {
+  background-color: light-dark(oklch(46% 0.16 40), oklch(80% 0.13 50));
+}
+
+/* No opacity change: the «Guardando…» text already tells it is busy and contrast is kept. */
+.submit:disabled {
+  cursor: progress;
+}
+
+.cancel {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 3rem;
+  padding-inline: var(--space-2);
+  font-weight: 600;
+}

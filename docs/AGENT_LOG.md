@@ -16,7 +16,7 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 | T-05 | Pod `recipe-list`: listado, búsqueda, filtros en la URL, estado vacío, skeleton | 001 · AC-8, AC-9, AC-12 |
 | T-06 | Pod `recipe-detail`: detalle, favorita y borrar con confirmación | 001 · AC-7, AC-10, AC-11 |
 | T-07 | Portada pública y usuario de prueba con recetas de ejemplo | 001 · R7, R8 |
-| T-08 | Renderizado por sección (grupos de rutas, portada estática) y revisión de lo ya hecho con Modern Web Guidance | 001 · AC-12, AC-13 |
+| T-08 | Renderizado por sección (grupos de rutas, portada estática), 404 completa sin JavaScript y revisión de lo ya hecho con Modern Web Guidance | 001 · AC-12, AC-13, AC-14 |
 
 ## Tareas
 
@@ -41,3 +41,9 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - Origen: recomendación de Testing al cerrar T-03 (D-21/D-22)
 - Vuelta 1 · Develop: `SessionNavContainer` async sin `<Suspense>` en el layout raíz; borrado el skeleton que ya no se usaba · Testing: **PASS** (sin JS: cabecera completa con y sin sesión, logout 303 a `/`, error de login con página completa; observaciones: comentarios desactualizados en `auth.scenes.tsx` y `guards.container.tsx`)
 - Commit: ec2c782
+
+## T-04 · Crear y editar recetas
+- Spec: specs/001-recetario.md (AC-5, AC-6, AC-7, AC-10, AC-12)
+- (Incidencia) La primera ejecución de Develop se cortó al cerrarse la sesión; se retomó revisando lo que había dejado.
+- Vuelta 1 · Develop: pod `recipe-form` (un formulario para crear y editar, ingredientes y pasos «uno por línea», Zod desde `RECIPE_LIMITS`, errores accesibles, `useActionState`), detalle provisional, rutas privadas, comentarios de T-03b corregidos; documentación en Context7 (Next 16.4.5, Zod 4, Supabase) y 5 guías de Modern Web Guidance · Testing: **FAIL** (D-24/D-26: bordes de los campos con contraste 1,44:1, se exige 3:1; observación: la 404 sin JavaScript sale en blanco por cómo funciona Next 16.4 → nuevo AC-14, planificado en T-08)
+- Vuelta 2 · Develop: token `--color-border-strong` (4,1–5,2:1 en claro y oscuro), id validado con `z.uuid()`, región `role="alert"` siempre montada · Testing: **PASS** (contraste recalculado, pasada en vivo sin JS; observaciones para T-08: Zod podría acabar en el JS del navegador y la región de error vacía usa `display: none`)

@@ -4,7 +4,24 @@
   min-inline-size: 0;
 }
 
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  min-inline-size: 0;
+}
+
 .title {
   font-family: var(--font-serif);
   font-size: var(--text-2xl);
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }

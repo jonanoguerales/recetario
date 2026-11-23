@@ -15,6 +15,9 @@
   --color-text-muted-dark: oklch(75% 0.015 70);
   --color-border-light: oklch(88% 0.015 70);
   --color-border-dark: oklch(35% 0.015 60);
+  /* Borders of form controls: at least 3:1 against surface and background (WCAG 1.4.11). */
+  --color-border-strong-light: oklch(58% 0.02 55);
+  --color-border-strong-dark: oklch(62% 0.015 70);
   --color-accent-light: oklch(52% 0.16 40);
   --color-accent-dark: oklch(74% 0.14 50);
   --color-accent-contrast-light: oklch(100% 0 0);
@@ -32,6 +35,7 @@
   --color-text: light-dark(var(--color-text-light), var(--color-text-dark));
   --color-text-muted: light-dark(var(--color-text-muted-light), var(--color-text-muted-dark));
   --color-border: light-dark(var(--color-border-light), var(--color-border-dark));
+  --color-border-strong: light-dark(var(--color-border-strong-light), var(--color-border-strong-dark));
   --color-accent: light-dark(var(--color-accent-light), var(--color-accent-dark));
   --color-accent-contrast: light-dark(
     var(--color-accent-contrast-light),

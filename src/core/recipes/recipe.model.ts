@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 /**
  * Domain types for recipes. They mirror the `public.recipes` table
  * (supabase/migrations/0001_recipes.sql); pod mappers turn them into ViewModels.
@@ -38,4 +40,15 @@ export interface Recipe {
   is_favorite: boolean;
   created_at: string;
   updated_at: string;
+}
+
+/**
+ * A recipe id (the uuid primary key), validated with Zod. Pages and actions check it before querying,
+ * so an id like `/recetas/abc` is a plain 404 instead of a database error (AC-10).
+ */
+export const recipeIdSchema = z.uuid();
+
+/** True when `value` is a valid recipe id (see `recipeIdSchema`). */
+export function isRecipeId(value: string): boolean {
+  return recipeIdSchema.safeParse(value).success;
 }

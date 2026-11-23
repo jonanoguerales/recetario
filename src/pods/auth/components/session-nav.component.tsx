@@ -48,4 +48,3 @@ export function SessionNavComponent({ session, logoutAction }: Props) {
     </ul>
   );
 }
-

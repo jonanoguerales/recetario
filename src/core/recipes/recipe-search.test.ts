@@ -15,6 +15,14 @@ describe("T-02 · AC-9 · normalizeSearchTerm (búsqueda sin mayúsculas ni tild
     expect(normalizeSearchTerm("100%_puro\\")).toBe("100\\%\\_puro\\\\");
   });
 
+  it("AC-9 · convierte «*» (comodín de PostgREST, no escapable) en «_»: una sola letra, nunca «cualquier texto»", () => {
+    expect(normalizeSearchTerm("2*3")).toBe("2_3");
+    expect(normalizeSearchTerm("**")).toBe("__");
+    // A literal «_» typed by the person stays escaped; only the «*» becomes the one-character wildcard.
+    expect(normalizeSearchTerm("a_*")).toBe("a\\__");
+    expect(normalizeSearchTerm("pi*on")).not.toContain("*");
+  });
+
   it("devuelve cadena vacía si solo hay espacios", () => {
     expect(normalizeSearchTerm("   ")).toBe("");
   });

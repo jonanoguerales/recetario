@@ -59,3 +59,7 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - (Incidencia) La ejecución de Develop se cortó por el límite de uso de la API y se retomó desde donde estaba.
 - Vuelta 1 · Develop: pod `recipe-list` (lista completa en el HTML, `<search>` + `<form method="get">`, búsqueda sin tildes con `normalizeSearchTerm`, filtros en la URL validados con Zod, paginación por URL, tarjetas accesibles, 3 estados vacíos, isla de cliente con filtros automáticos y skeleton de la misma forma); un e2e destapó un fallo real («Quitar filtros» con JS no vaciaba los controles) y lo corrigió · Testing: **PASS** (96 Vitest, 82 e2e, limpieza por SQL; observaciones: la skill `ux-loading-and-motion` contradice la guía de accesibilidad al poner `role="status"` en el skeleton; el auto-envío del `<select>` lanza una navegación por cada flecha del teclado; `*` actúa como comodín)
 - Commit: c687d3e
+
+## T-05b · Ajustes de accesibilidad del listado
+- Origen: observaciones de Testing en T-05 (el Orquestador corrigió antes la skill `ux-loading-and-motion` en 93a9d23 y decidió el comportamiento de los filtros)
+- Vuelta 1 · Develop: skeleton con `aria-hidden` y una sola región `status` con el resultado; «Favoritas» al momento y categoría con la misma pausa de 400 ms que la búsqueda (una sola navegación aunque se recorran opciones); `*` → `_` en la búsqueda; foco de la tarjeta con `:has()` dentro de `@supports` · Testing: **PASS** (97 Vitest, 85 e2e; observaciones menores para T-08: e2e con `*` literal, `toBeFocused` en el select, esperas fijas en tests de tiempos)

@@ -17,7 +17,10 @@ interface Props {
   onSubmit: FormEventHandler<HTMLFormElement>;
   onSearchChange: ChangeEventHandler<HTMLInputElement>;
   onSearchCompositionEnd: CompositionEventHandler<HTMLInputElement>;
-  onFilterChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
+  /** Category: applied after the same pause as the search (arrow keys move through the options). */
+  onCategoryChange: ChangeEventHandler<HTMLSelectElement>;
+  /** «Solo favoritas»: applied at once (one deliberate click). */
+  onFavoritesChange: ChangeEventHandler<HTMLInputElement>;
   onClear: MouseEventHandler<HTMLAnchorElement>;
 }
 
@@ -32,7 +35,8 @@ export function RecipeFiltersComponent({
   onSubmit,
   onSearchChange,
   onSearchCompositionEnd,
-  onFilterChange,
+  onCategoryChange,
+  onFavoritesChange,
   onClear,
 }: Props) {
   return (
@@ -75,7 +79,7 @@ export function RecipeFiltersComponent({
             name={RECIPE_LIST_PARAMS.category}
             defaultValue={filters.category}
             className={styles.control}
-            onChange={onFilterChange}
+            onChange={onCategoryChange}
           >
             <option value="">Todas</option>
             {filters.categoryOptions.map((option) => (
@@ -94,7 +98,7 @@ export function RecipeFiltersComponent({
             value={FAVORITES_ON}
             defaultChecked={filters.favoritesOnly}
             className={styles.checkbox}
-            onChange={onFilterChange}
+            onChange={onFavoritesChange}
           />
           <label htmlFor="recipe-favorites">Solo favoritas</label>
         </div>

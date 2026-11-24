@@ -1,1 +1,1 @@
-export { SkeletonBlock, SkeletonStatus } from "./skeleton.component";
+export { SkeletonBlock } from "./skeleton.component";

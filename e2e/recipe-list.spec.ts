@@ -107,6 +107,18 @@ test.describe("listado de C (recetas controladas)", () => {
       await expect(cardTitles(page)).toHaveText(["Pollo al curry"]);
     });
 
+    test("AC-9 · «*» en la búsqueda vale por una sola letra, no por «cualquier texto»", BOTH, async ({ page }) => {
+      await page.goto("/recetas");
+      await search(page, { q: "pi*ones" });
+      await expectUrlFilters(page, { q: "pi*ones" });
+      await expect(cardTitles(page)).toHaveText(["Tarta de piñones"]);
+
+      // If «*» were PostgREST's «%», this would match «Tarta de piñones».
+      await search(page, { q: "tarta*piñones" });
+      await expectUrlFilters(page, { q: "tarta*piñones" });
+      await expect(page.getByRole("heading", { level: 2, name: "No hay recetas que coincidan" })).toBeVisible();
+    });
+
     test("AC-9 · la búsqueda se combina con la categoría y las favoritas", BOTH, async ({ page }) => {
       await page.goto("/recetas");
       await search(page, { q: "piñón", category: "Principal" });
@@ -174,11 +186,16 @@ test.describe("listado de C (recetas controladas)", () => {
   });
 
   test.describe("AC-9 · con JavaScript los filtros se aplican solos", () => {
-    test("AC-9 · cambiar la categoría o las favoritas aplica el filtro sin pulsar «Buscar»", JS_ONLY, async ({ page }) => {
+    test("AC-9 · «Solo favoritas» se aplica al momento y la categoría tras una pausa, sin pulsar «Buscar»", JS_ONLY, async ({ page }) => {
       await page.goto("/recetas");
       await categorySelect(page).selectOption({ label: "Principal" });
+      // The category waits for the pause before navigating (the URL has not changed yet)…
+      await page.waitForTimeout(150);
+      expect(new URL(page.url()).search).toBe("");
+      // …and then it is applied on its own.
       await expect(page).toHaveURL(/\/recetas\?categoria=principal$/);
       await expect(cardTitles(page)).toHaveText(["Pesto genovés", "Pollo al curry"]);
+      await expect(page.getByRole("status")).toHaveText("2 recetas");
 
       await favoritesCheck(page).check();
       await expect(page).toHaveURL(/\/recetas\?categoria=principal&favoritas=1$/);
@@ -190,6 +207,33 @@ test.describe("listado de C (recetas controladas)", () => {
       await expect(favoritesCheck(page)).not.toBeChecked();
       await expect(categorySelect(page)).toHaveValue("principal");
       await expect(cardTitles(page)).toHaveText(["Pesto genovés", "Pollo al curry"]);
+    });
+
+    test("AC-9 · varios cambios rápidos de la categoría hacen una sola navegación", JS_ONLY, async ({ page }) => {
+      await page.goto("/recetas");
+      await expect(cardTitles(page)).toHaveCount(LIST_PAGE_SIZE);
+
+      // Every request of a filtered list from now on (RSC fetch of a client navigation, or a document).
+      const requestedCategories: (string | null)[] = [];
+      page.on("request", (request) => {
+        const url = new URL(request.url());
+        if (url.pathname === "/recetas" && url.searchParams.has("categoria")) {
+          requestedCategories.push(url.searchParams.get("categoria"));
+        }
+      });
+
+      // Like going through the options with the arrow keys: each change comes before the pause ends.
+      for (const label of ["Desayuno", "Entrante", "Principal", "Postre", "Bebida"]) {
+        await categorySelect(page).selectOption({ label });
+        await page.waitForTimeout(60);
+      }
+
+      await expect(page).toHaveURL(/\/recetas\?categoria=bebida$/);
+      await expect(cardTitles(page)).toHaveText(["Café con leche"]);
+      await expect(page.getByRole("status")).toHaveText("1 receta");
+      // Leave time for any late navigation before counting.
+      await page.waitForTimeout(800);
+      expect([...new Set(requestedCategories)]).toEqual(["bebida"]);
     });
 
     test("AC-9 · al escribir, la búsqueda se aplica tras una pausa y el texto no se pierde", JS_ONLY, async ({ page }) => {
@@ -217,8 +261,14 @@ test.describe("listado de C (recetas controladas)", () => {
       await favoritesCheck(page).uncheck();
       await categorySelect(page).selectOption({ label: "Bebida" });
 
-      const skeleton = page.getByRole("status").filter({ hasText: "Cargando recetas…" });
+      const skeleton = page.getByTestId("recipe-list-skeleton");
       await expect(skeleton).toBeVisible();
+      // Not a live region: it is hidden from assistive technology and announces nothing; the only
+      // status of the page is the result summary, which stays in the DOM.
+      await expect(skeleton).toHaveAttribute("aria-hidden", "true");
+      await expect(skeleton.locator('[role="status"]')).toHaveCount(0);
+      await expect(page.getByText("Cargando", { exact: false })).toHaveCount(0);
+      await expect(page.getByRole("status")).toHaveCount(1);
       const skeletonBox = await skeleton.boundingBox();
       // Same place and width as the list it replaces.
       expect(skeletonBox?.x).toBeCloseTo(listBox?.x ?? -1, 0);
@@ -228,6 +278,7 @@ test.describe("listado de C (recetas controladas)", () => {
       release();
       await expect(skeleton).toHaveCount(0);
       await expect(cardTitles(page)).toHaveText(["Café con leche"]);
+      await expect(page.getByRole("status")).toHaveText("1 receta");
       await expect(page).toHaveURL(/\/recetas\?categoria=bebida$/);
     });
   });

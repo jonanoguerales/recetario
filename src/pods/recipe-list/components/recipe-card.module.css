@@ -13,14 +13,23 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* Hover and focus are drawn on the card, not on the stretched link. */
-.card:has(.link:hover) {
-  border-color: var(--color-border-strong);
-}
+/*
+ * Hover and focus are drawn on the card, not on the stretched link. Only where :has() works: without it
+ * the link keeps its own focus ring (the rule that removes it is inside the same @supports).
+ */
+@supports selector(:has(*)) {
+  .card:has(.link:hover) {
+    border-color: var(--color-border-strong);
+  }
 
-.card:has(.link:focus-visible) {
-  outline: 3px solid var(--color-focus);
-  outline-offset: 2px;
+  .card:has(.link:focus-visible) {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .link:focus-visible {
+    outline: none;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -65,11 +74,6 @@
 .link:hover {
   text-decoration: underline;
   text-decoration-thickness: 1px;
-}
-
-.link:focus-visible {
-  /* Drawn on the card instead (see .card:has(.link:focus-visible)). */
-  outline: none;
 }
 
 .favorite {

@@ -16,6 +16,7 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 | T-05 | Pod `recipe-list`: listado, búsqueda, filtros en la URL, estado vacío, skeleton | 001 · AC-8, AC-9, AC-12 |
 | T-06 | Pod `recipe-detail`: detalle, favorita y borrar con confirmación | 001 · AC-7, AC-10, AC-11 |
 | T-07 | Portada estática, grupos de rutas, 404 completa sin JavaScript y usuario de prueba con recetas (une las antiguas T-07 y T-08 a petición del humano) | 001 · R7, R8, AC-13, AC-14 |
+| T-08 | Flecha del desplegable con el mismo margen que el texto (pedido por el humano con una captura) | 001 · AC-12 |
 
 ## Tareas
 
@@ -74,3 +75,7 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - Spec: specs/001-recetario.md (R7, R8, AC-13, AC-14)
 - Vuelta 1 · Develop: grupos `(public)`/`(auth)`/`(app)` sin cambiar URLs, layout raíz sin sesión (○ `/`, `/_not-found`, `/login`, `/registro`; ƒ zona privada), portada `home`, 404 completa sin JS reescribiendo desde `proxy.ts` a `/_no-encontrada` tras consultar la receta con RLS (las páginas siguen comprobando en servidor), `npm run db:seed-demo` idempotente con `admin@recetario.app` y 8 recetas (contraseña solo en `.env.local`) · Testing (revisión rápida): **PASS** (116 Vitest, 117 e2e, limpieza por SQL; observaciones: enlace a la portada en la 404, coste de la consulta del proxy, nombre reservado `/_no-encontrada`)
 - Commit: ca8a611
+
+## T-08 · Flecha del desplegable separada del borde
+- Origen: captura del humano (la flecha nativa del `<select>` quedaba pegada al borde derecho)
+- Vuelta 1 · Develop: una regla compartida en `globals.css` para `select:not([multiple], [size])` con `appearance: none` y chevron en `currentColor` a la misma distancia del borde que el texto; MWG `branded-select-styling` (descarta `appearance: base-select` porque quita el selector nativo del móvil y no está en Firefox) · Testing (revisión rápida): **PASS** (116 Vitest, build sin cambios de renderizado, ningún `background` abreviado anula el chevron; observaciones: solo LTR, revisar `forced-colors` en una pasada futura)

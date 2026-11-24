@@ -1,24 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Recetario
 
-## Getting Started
+App web para **guardar, buscar y organizar tus recetas**. Cada persona inicia sesión y solo ve y edita las suyas.
+Construida por un **equipo de 3 agentes de Claude Code** (Orquestador, Develop y Testing) para la prueba técnica de
+Speed Paradigm.
 
-First, run the development server:
+- **App en producción:** https://recetario-black.vercel.app
+- **Usuario de prueba:** `admin@recetario.app` (la contraseña se entrega en el formulario, no está en el repo) con
+  8 recetas de ejemplo.
+- **Cómo se ha usado Claude Code:** [`docs/CLAUDE_CODE.md`](docs/CLAUDE_CODE.md)
+- **Registro tarea a tarea del equipo (Develop ⇄ Testing):** [`docs/AGENT_LOG.md`](docs/AGENT_LOG.md)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## El equipo de agentes
+
+| Agente | Fichero | Qué hace |
+|---|---|---|
+| **Orquestador** | [`CLAUDE.md`](CLAUDE.md) | Agente principal. Escribe la spec, divide el trabajo en tareas, se las encarga a Develop, manda revisar a Testing y cierra cada tarea (registro, commit y push). No programa. |
+| **Develop** | [`.claude/agents/develop.md`](.claude/agents/develop.md) | Subagente que programa siguiendo sus normas: arquitectura por pods, Supabase con RLS, Server Actions + Zod, Modern Web Guidance, tests Vitest y Playwright. |
+| **Testing** | [`.claude/agents/testing.md`](.claude/agents/testing.md) | Subagente revisor con las **DIRECTRICES** (D-01…D-34). Ejecuta lint, tipos, tests, build y e2e, revisa el diff y devuelve `PASS` o `FAIL` con cada fallo. Solo lectura. |
+
+Flujo de cada tarea: **spec → Develop → Testing → (si FAIL, los fallos vuelven literales a Develop, máx. 3 vueltas)
+→ registro en `AGENT_LOG.md` → commit `Develop ⇄ Testing: N vuelta(s)` → push**.
+
+## Funcionalidades
+
+- Registro, inicio y cierre de sesión (Supabase Auth).
+- Crear, ver, editar y borrar recetas (con confirmación), con validación por campo en servidor y en la base de datos.
+- Listado con búsqueda por título o ingrediente (sin distinguir mayúsculas ni tildes) y filtros por categoría y
+  favoritas, todo en la URL.
+- Favoritas con respuesta instantánea.
+- Privacidad garantizada por **RLS** en Postgres: nadie lee ni toca recetas ajenas, ni llamando a la API directamente.
+- Funciona **sin JavaScript**, a **375 px** y con teclado; modo claro y oscuro.
+
+## Stack
+
+Next.js 16 (App Router, React 19) · TypeScript · Supabase (Postgres + Auth + RLS, `@supabase/ssr`) · Zod ·
+CSS Modules · Vitest · Playwright · Vercel (plan gratuito) · Supabase (plan gratuito).
+
+**Renderizado por sección** (skill [`nextjs-rendering-strategy`](.claude/skills/nextjs-rendering-strategy/SKILL.md)):
+portada, login, registro y 404 **estáticas**; la zona privada **SSR dinámico** con el contenido completo en el HTML;
+JavaScript de cliente solo en islas (estado pendiente, confirmar borrado, favorita).
+
+## Estructura
+
+```
+src/app/           rutas finas, en grupos (public) / (auth) / (app)
+src/pods/          una carpeta por funcionalidad: auth, home, recipe-form, recipe-list, recipe-detail
+src/core/          supabase, auth, dominio de recetas, flash
+src/common/        componentes y utilidades compartidas
+supabase/migrations/  SQL versionado (tabla, RLS, índices, permisos)
+specs/             spec con criterios AC-1…AC-14
+e2e/               tests Playwright (desktop, sin JS y 375 px)
+.claude/           agentes y skills del proyecto
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Puesta en marcha
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cp .env.example .env.local   # rellena las claves de tu proyecto Supabase
+npm install
+npm run db:migrate           # aplica supabase/migrations en DATABASE_URL
+npm run db:seed-demo         # crea el usuario de prueba (contraseña en DEMO_PASSWORD)
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Comprobaciones: `npm run lint` · `npm run typecheck` · `npm test` · `npm run build` · `npm run test:e2e` ·
+`npm run db:check-rls`.
 
 ## Tests
 
@@ -31,24 +77,11 @@ npm run test:e2e    # Playwright: flujos completos en el navegador (carpeta e2e/
 - `npm run test:e2e` hace `next build` y arranca `next start` en el puerto 3310 (si ya hay un servidor ahí y no
   es CI, lo reutiliza). Necesita `.env.local` con las claves de Supabase y `DATABASE_URL`.
 - Proyectos: `desktop` (Chromium con JavaScript), `no-js` (sin JavaScript, para los formularios) y `mobile-375`
-  (375 × 812, para el diseño). Cada test elige los suyos con etiquetas (`@desktop`, `@no-js`, `@mobile`) y
-  nombra el criterio `AC-n` que cubre. Uno solo: `npx playwright test --project=no-js`.
-- Usuarios de prueba: `e2e/global-setup.ts` crea por SQL (vía `DATABASE_URL`) dos usuarios confirmados
-  `e2e-<id>-a@example.net` y `e2e-<id>-b@example.net`; `e2e/global-teardown.ts` los borra al terminar (también
-  si fallan tests), con sus recetas en cascada, y limpia restos de más de 2 horas de ejecuciones interrumpidas.
-- Si algo falla, la traza y la captura quedan en `test-results/` (`npx playwright show-trace <ruta>/trace.zip`).
+  (375 × 812, para el diseño). Cada test nombra el criterio `AC-n` que cubre.
+- Usuarios de prueba: `e2e/global-setup.ts` los crea por SQL (`e2e-<id>-*@example.net`) y
+  `e2e/global-teardown.ts` los borra al terminar, también si fallan tests.
 
-## Learn More
+## Seguridad
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Ninguna clave en el repositorio: `.env.local` está en `.gitignore` y `.env.example` va sin valores.
+- La app solo usa la clave publicable de Supabase; la seguridad la pone RLS, no el cliente.

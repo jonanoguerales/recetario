@@ -69,3 +69,7 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - Vuelta 1 · Develop: detalle completo, «Favorita» con `aria-pressed` y cambio instantáneo (`useFormStatus`), borrar con `<dialog>` nativo (con JS) o página `/recetas/[id]/borrar` (sin JS), aviso de borrado de un solo uso con cookie flash consumida en el proxy · Testing: **PASS** (112 Vitest, 104 e2e; revisó la seguridad del aviso contra el código de Next; observaciones: e2e para la cabecera inyectada y vigilar el truco `withJs` al actualizar Next)
 - (Humano) Pide acelerar: a partir de aquí revisiones de Testing más ligeras y T-07/T-08 unidas en una sola tarea.
 - Commit: dca59ce
+
+## T-07 · Portada estática, grupos de rutas, 404 sin JavaScript y usuario de prueba
+- Spec: specs/001-recetario.md (R7, R8, AC-13, AC-14)
+- Vuelta 1 · Develop: grupos `(public)`/`(auth)`/`(app)` sin cambiar URLs, layout raíz sin sesión (○ `/`, `/_not-found`, `/login`, `/registro`; ƒ zona privada), portada `home`, 404 completa sin JS reescribiendo desde `proxy.ts` a `/_no-encontrada` tras consultar la receta con RLS (las páginas siguen comprobando en servidor), `npm run db:seed-demo` idempotente con `admin@recetario.app` y 8 recetas (contraseña solo en `.env.local`) · Testing (revisión rápida): **PASS** (116 Vitest, 117 e2e, limpieza por SQL; observaciones: enlace a la portada en la 404, coste de la consulta del proxy, nombre reservado `/_no-encontrada`)

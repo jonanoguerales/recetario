@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isRecipeId, recipeIdSchema } from "./recipe.model";
-import { RECIPE_ROUTES } from "./recipe.routes";
+import { RECIPE_ROUTES, recipeIdFromPagePath } from "./recipe.routes";
 
 describe("RECIPE_ROUTES", () => {
   it("AC-5: el detalle y la edición de una receta cuelgan de /recetas/[id]", () => {
@@ -36,5 +36,25 @@ describe("recipeIdSchema", () => {
     expect(recipeIdSchema.parse(id)).toBe(id);
     expect(recipeIdSchema.safeParse("abc").success).toBe(false);
     expect(recipeIdSchema.safeParse(`${id}' or 1=1`).success).toBe(false);
+  });
+});
+
+describe("recipeIdFromPagePath", () => {
+  const id = "0b9f1c3e-8a4d-4f6b-9c2e-1d3f5a7b9c0d";
+
+  it("AC-14: saca el id del detalle, de la edición y de la confirmación de borrado", () => {
+    expect(recipeIdFromPagePath(`/recetas/${id}`)).toBe(id);
+    expect(recipeIdFromPagePath(`/recetas/${id}/`)).toBe(id);
+    expect(recipeIdFromPagePath(`/recetas/${id}/editar`)).toBe(id);
+    expect(recipeIdFromPagePath(`/recetas/${id}/borrar`)).toBe(id);
+    expect(recipeIdFromPagePath("/recetas/abc")).toBe("abc");
+  });
+
+  it("AC-14: no aplica a la lista, a «nueva» ni a otras rutas", () => {
+    expect(recipeIdFromPagePath("/recetas")).toBeNull();
+    expect(recipeIdFromPagePath("/recetas/nueva")).toBeNull();
+    expect(recipeIdFromPagePath(`/recetas/${id}/otra`)).toBeNull();
+    expect(recipeIdFromPagePath("/login")).toBeNull();
+    expect(recipeIdFromPagePath("/")).toBeNull();
   });
 });

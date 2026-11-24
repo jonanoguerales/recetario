@@ -1,11 +1,12 @@
-import { Suspense } from "react";
 import { ROUTES } from "@/core/auth";
 import { AuthPanelComponent } from "./components/auth-panel.component";
-import { GuestOnlyRedirect } from "./guards.container";
 import { LoginContainer } from "./login.container";
 import { RegisterContainer } from "./register.container";
 
-/** /login: sign-in form (arrives in the server HTML, works without JS) + server redirect when there is a session. */
+/**
+ * /login: sign-in form (static HTML, works without JS). With a session, proxy.ts sends the person to
+ * /recetas before the page is served.
+ */
 export function LoginScene() {
   return (
     <AuthPanelComponent
@@ -16,14 +17,11 @@ export function LoginScene() {
       switchHref={ROUTES.register}
     >
       <LoginContainer />
-      <Suspense fallback={null}>
-        <GuestOnlyRedirect />
-      </Suspense>
     </AuthPanelComponent>
   );
 }
 
-/** /registro: sign-up form (arrives in the server HTML, works without JS) + server redirect when there is a session. */
+/** /registro: sign-up form (static HTML, works without JS); the redirect with a session is in proxy.ts. */
 export function RegisterScene() {
   return (
     <AuthPanelComponent
@@ -34,9 +32,6 @@ export function RegisterScene() {
       switchHref={ROUTES.login}
     >
       <RegisterContainer />
-      <Suspense fallback={null}>
-        <GuestOnlyRedirect />
-      </Suspense>
     </AuthPanelComponent>
   );
 }

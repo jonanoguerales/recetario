@@ -122,7 +122,7 @@ test.describe("AC-4 · cerrar sesión", () => {
 
     await page.getByRole("button", { name: "Cerrar sesión" }).click();
     await expect(page).toHaveURL(/\/$/);
-    await expect(page.getByRole("link", { name: "Entrar" })).toBeVisible();
+    await expect(page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "Entrar" })).toBeVisible();
 
     await page.goto("/recetas");
     await expect(page).toHaveURL(/\/login$/);

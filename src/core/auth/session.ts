@@ -28,9 +28,3 @@ export async function requireUser(): Promise<SessionUser> {
   if (!user) redirect(ROUTES.login);
   return user;
 }
-
-/** For /login and /registro: with a session there is nothing to do there → /recetas. */
-export async function redirectIfAuthenticated(): Promise<void> {
-  const user = await getCurrentUser();
-  if (user) redirect(ROUTES.recipes);
-}

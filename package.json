@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:check-rls": "tsx scripts/check-rls.ts",
+    "db:seed-demo": "tsx scripts/seed-demo.ts",
     "test:e2e": "playwright test"
   },
   "dependencies": {

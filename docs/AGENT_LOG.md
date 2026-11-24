@@ -79,3 +79,4 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 ## T-08 · Flecha del desplegable separada del borde
 - Origen: captura del humano (la flecha nativa del `<select>` quedaba pegada al borde derecho)
 - Vuelta 1 · Develop: una regla compartida en `globals.css` para `select:not([multiple], [size])` con `appearance: none` y chevron en `currentColor` a la misma distancia del borde que el texto; MWG `branded-select-styling` (descarta `appearance: base-select` porque quita el selector nativo del móvil y no está en Firefox) · Testing (revisión rápida): **PASS** (116 Vitest, build sin cambios de renderizado, ningún `background` abreviado anula el chevron; observaciones: solo LTR, revisar `forced-colors` en una pasada futura)
+- Commit: 824de34

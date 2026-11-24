@@ -20,6 +20,24 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Tests
+
+```bash
+npm test            # Vitest: lógica pura (validaciones Zod, mappers, utilidades) en src/ y scripts/
+npm run test:e2e    # Playwright: flujos completos en el navegador (carpeta e2e/)
+```
+
+- La primera vez instala el navegador: `npx playwright install chromium`.
+- `npm run test:e2e` hace `next build` y arranca `next start` en el puerto 3310 (si ya hay un servidor ahí y no
+  es CI, lo reutiliza). Necesita `.env.local` con las claves de Supabase y `DATABASE_URL`.
+- Proyectos: `desktop` (Chromium con JavaScript), `no-js` (sin JavaScript, para los formularios) y `mobile-375`
+  (375 × 812, para el diseño). Cada test elige los suyos con etiquetas (`@desktop`, `@no-js`, `@mobile`) y
+  nombra el criterio `AC-n` que cubre. Uno solo: `npx playwright test --project=no-js`.
+- Usuarios de prueba: `e2e/global-setup.ts` crea por SQL (vía `DATABASE_URL`) dos usuarios confirmados
+  `e2e-<id>-a@example.net` y `e2e-<id>-b@example.net`; `e2e/global-teardown.ts` los borra al terminar (también
+  si fallan tests), con sus recetas en cascada, y limpia restos de más de 2 horas de ejecuciones interrumpidas.
+- Si algo falla, la traza y la captura quedan en `test-results/` (`npx playwright show-trace <ruta>/trace.zip`).
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

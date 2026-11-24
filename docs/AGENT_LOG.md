@@ -53,3 +53,8 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - Spec: D-34 (AC-1…AC-7, AC-10 y AC-12 de las pantallas existentes)
 - Vuelta 1 · Develop: Playwright 1.65 con Chromium en el proyecto, proyectos `desktop` / `mobile-375` / `no-js` + `setup` (sesiones guardadas para no pasar el límite de Supabase Auth), usuarios de prueba por SQL creados y borrados en cada ejecución, 50 tests nombrados por AC; documentación en Context7 (`/microsoft/playwright`) · Testing: **PASS** (50/50 dos veces sin intermitencias; rompió el código 3 veces a propósito y los tests lo detectaron; limpieza verificada por SQL; observación: el e2e de AC-5 debería comprobar más campos del detalle → T-06)
 - Commit: 838de10
+
+## T-05 · Listado de mis recetas con búsqueda y filtros
+- Spec: specs/001-recetario.md (AC-8, AC-9, AC-12, AC-13)
+- (Incidencia) La ejecución de Develop se cortó por el límite de uso de la API y se retomó desde donde estaba.
+- Vuelta 1 · Develop: pod `recipe-list` (lista completa en el HTML, `<search>` + `<form method="get">`, búsqueda sin tildes con `normalizeSearchTerm`, filtros en la URL validados con Zod, paginación por URL, tarjetas accesibles, 3 estados vacíos, isla de cliente con filtros automáticos y skeleton de la misma forma); un e2e destapó un fallo real («Quitar filtros» con JS no vaciaba los controles) y lo corrigió · Testing: **PASS** (96 Vitest, 82 e2e, limpieza por SQL; observaciones: la skill `ux-loading-and-motion` contradice la guía de accesibilidad al poner `role="status"` en el skeleton; el auto-envío del `<select>` lanza una navegación por cada flecha del teclado; `*` actúa como comodín)

@@ -1,0 +1,109 @@
+/* Recipe card. The skeleton reuses .card, .header, .title, .link and .meta, so both have the same shape. */
+.card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  block-size: 100%;
+  min-inline-size: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Hover and focus are drawn on the card, not on the stretched link. */
+.card:has(.link:hover) {
+  border-color: var(--color-border-strong);
+}
+
+.card:has(.link:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    transition: border-color 150ms ease;
+  }
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--space-3);
+  min-inline-size: 0;
+}
+
+.title {
+  flex: 1 1 12rem;
+  min-inline-size: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  overflow-wrap: break-word;
+}
+
+/* At least 44 px tall (touch target); its ::after covers the whole card. */
+.link {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--tap-target);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.link:focus-visible {
+  /* Drawn on the card instead (see .card:has(.link:focus-visible)). */
+  outline: none;
+}
+
+.favorite {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.star {
+  inline-size: 1em;
+  block-size: 1em;
+  flex: none;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.metaItem {
+  min-inline-size: 0;
+}
+
+.category {
+  color: var(--color-text);
+  font-weight: 600;
+}

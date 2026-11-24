@@ -23,3 +23,9 @@ setup("sesión del usuario B", async ({ page }) => {
   await expect(page).toHaveURL(/\/recetas$/);
   await page.context().storageState({ path: STORAGE_STATE.userB });
 });
+
+setup("sesión del usuario C (listado)", async ({ page }) => {
+  await signIn(page, getRun().userC);
+  await expect(page).toHaveURL(/\/recetas$/);
+  await page.context().storageState({ path: STORAGE_STATE.userC });
+});

@@ -1,0 +1,114 @@
+/* The <search> landmark is the size container: the form adapts to its own width, not the viewport's. */
+.search {
+  container-type: inline-size;
+  min-inline-size: 0;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+}
+
+@container (inline-size >= 40rem) {
+  .form {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;
+  }
+
+  .actions {
+    grid-column: 1 / -1;
+  }
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.control {
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 3rem;
+  padding: var(--space-2) var(--space-3);
+  /* --color-border-strong: at least 3:1 against the field and the page. */
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  /* At least 1rem (avoids the automatic zoom of iOS Safari). */
+  font-size: max(1rem, 1em);
+}
+
+.control:hover {
+  border-color: var(--color-text-muted);
+}
+
+/* Checkbox + label: the whole row is the 44 px touch target. */
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--tap-target);
+}
+
+.check label {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap-target);
+  cursor: pointer;
+}
+
+.checkbox {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  flex: none;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.submit,
+.clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 3rem;
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.submit {
+  border: 0;
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  cursor: pointer;
+}
+
+.submit:hover {
+  background-color: light-dark(oklch(46% 0.16 40), oklch(80% 0.13 50));
+}
+
+.clear {
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.clear:hover {
+  border-color: var(--color-text-muted);
+}

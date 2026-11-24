@@ -27,15 +27,3 @@
     background-position: -50% 0;
   }
 }
-
-.text {
-  display: grid;
-}
-
-/* A line of text: 1lh tall; the block is a bit shorter and centred, like the glyphs. */
-.line {
-  block-size: 1lh;
-  inline-size: min(100%, 22rem);
-  background-clip: content-box;
-  padding-block: 0.25lh;
-}

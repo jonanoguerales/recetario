@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import { SkeletonText } from "@/common/components/skeleton";
 import { PageLayout } from "@/layouts";
-import { RequireSession } from "@/pods/auth";
 import { NewRecipeLink } from "@/pods/recipe-form";
+import { RecipeListContainer } from "@/pods/recipe-list";
 
 export const metadata: Metadata = { title: "Mis recetas" };
 
-// Provisional private page: the real list arrives in T-05.
-export default function RecipesPage() {
+export default function RecipesPage({ searchParams }: PageProps<"/recetas">) {
   return (
     <PageLayout title="Mis recetas" actions={<NewRecipeLink />}>
-      <Suspense fallback={<SkeletonText label="Cargando tus recetas…" />}>
-        <RequireSession>
-          <p>Aquí aparecerán tus recetas.</p>
-        </RequireSession>
-      </Suspense>
+      <RecipeListContainer searchParams={searchParams} />
     </PageLayout>
   );
 }

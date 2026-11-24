@@ -1,0 +1,25 @@
+.root {
+  display: grid;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+
+.summary {
+  min-block-size: 1lh;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* Card grid, shared by the real list and its skeleton (same columns, same gaps). */
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-4);
+  min-inline-size: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  min-inline-size: 0;
+}

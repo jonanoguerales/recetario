@@ -113,3 +113,32 @@ test.describe("AC-12 · diseño a 375 px con sesión", () => {
     await expectGoodMobileLayout(page);
   });
 });
+
+test.describe("AC-12 · listado de recetas a 375 px", () => {
+  test.use({ storageState: STORAGE_STATE.userC });
+
+  const listPages = [
+    { name: "la lista con tarjetas y paginación", path: "/recetas" },
+    { name: "la lista filtrada (búsqueda, categoría y favoritas)", path: "/recetas?q=pinon&categoria=postre&favoritas=1" },
+    { name: "la lista sin resultados", path: "/recetas?q=no-existe-esta-receta" },
+  ];
+
+  for (const { name, path } of listPages) {
+    test(`AC-12 · ${name} a 375 px: sin scroll horizontal, un h1 y controles de 44 px`, MOBILE, async ({ page }) => {
+      await page.goto(path);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Mis recetas");
+      await expect(page.getByRole("search")).toBeVisible();
+      await expectGoodMobileLayout(page);
+    });
+  }
+});
+
+test.describe("AC-12 · listado vacío a 375 px", () => {
+  test.use({ storageState: STORAGE_STATE.userB });
+
+  test("AC-12 · /recetas sin recetas a 375 px: sin scroll horizontal, un h1 y controles de 44 px", MOBILE, async ({ page }) => {
+    await page.goto("/recetas");
+    await expect(page.getByRole("heading", { level: 2, name: "Todavía no tienes recetas" })).toBeVisible();
+    await expectGoodMobileLayout(page);
+  });
+});

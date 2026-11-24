@@ -1,0 +1,10 @@
+/* One line of text of its container: 1lh tall, the block a bit shorter and centred like the glyphs. */
+.line {
+  block-size: 1lh;
+  padding-block: 0.2lh;
+  background-clip: content-box;
+}
+
+.meta {
+  inline-size: min(100%, 14rem);
+}

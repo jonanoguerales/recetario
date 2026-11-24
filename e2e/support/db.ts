@@ -82,6 +82,32 @@ export async function insertRecipe(sql: Sql, userId: string, title: string): Pro
   return recipe.id;
 }
 
+/** A recipe of the list tests (AC-8, AC-9), created `minutesAgo` minutes ago so the order is known. */
+export interface SeedRecipe {
+  title: string;
+  category: string;
+  ingredients: string[];
+  isFavorite: boolean;
+  minutesAgo: number;
+}
+
+/** Inserts the recipes of `userId` with a fixed creation time each (bypasses RLS, like insertRecipe). */
+export async function insertRecipes(sql: Sql, userId: string, recipes: SeedRecipe[]): Promise<void> {
+  await sql.begin(async (tx) => {
+    for (const recipe of recipes) {
+      await tx`
+        insert into public.recipes (
+          user_id, title, category, prep_minutes, servings, ingredients, steps, is_favorite, created_at
+        ) values (
+          ${userId}, ${recipe.title}, ${recipe.category}, 30, 4, ${recipe.ingredients}::text[],
+          ${["Preparar la receta."]}::text[], ${recipe.isFavorite},
+          now() - ${recipe.minutesAgo} * interval '1 minute'
+        )
+      `;
+    }
+  });
+}
+
 /**
  * Deletes the users of one run (their recipes go with them: `on delete cascade`), plus e2e users
  * older than STALE_AFTER that a killed run could not delete. Returns how many were deleted.

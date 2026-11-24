@@ -17,6 +17,8 @@ export interface E2eRun {
   runId: string;
   userA: E2eUser;
   userB: E2eUser;
+  /** Owner of the controlled recipes of the list tests (AC-8, AC-9); no test changes them. */
+  userC: E2eUser;
   /** A recipe of user A that no test modifies (AC-10, 375 px detail page). */
   recipeOfA: { id: string; title: string };
 }
@@ -26,6 +28,7 @@ export const AUTH_DIR = path.join(__dirname, "..", ".auth");
 export const STORAGE_STATE = {
   userA: path.join(AUTH_DIR, "user-a.json"),
   userB: path.join(AUTH_DIR, "user-b.json"),
+  userC: path.join(AUTH_DIR, "user-c.json"),
 } as const;
 
 /** Browser state with no session, for the pages that are only for guests. */

@@ -15,8 +15,7 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 | T-04b | Tests end-to-end con Playwright (Chromium en el proyecto) para AC-1…AC-7, con y sin JavaScript y a 375 px | 001 · D-34 |
 | T-05 | Pod `recipe-list`: listado, búsqueda, filtros en la URL, estado vacío, skeleton | 001 · AC-8, AC-9, AC-12 |
 | T-06 | Pod `recipe-detail`: detalle, favorita y borrar con confirmación | 001 · AC-7, AC-10, AC-11 |
-| T-07 | Portada pública y usuario de prueba con recetas de ejemplo | 001 · R7, R8 |
-| T-08 | Renderizado por sección (grupos de rutas, portada estática), 404 completa sin JavaScript y revisión de lo ya hecho con Modern Web Guidance | 001 · AC-12, AC-13, AC-14 |
+| T-07 | Portada estática, grupos de rutas, 404 completa sin JavaScript y usuario de prueba con recetas (une las antiguas T-07 y T-08 a petición del humano) | 001 · R7, R8, AC-13, AC-14 |
 
 ## Tareas
 
@@ -69,3 +68,4 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - Spec: specs/001-recetario.md (AC-5, AC-7, AC-10, AC-11, AC-12)
 - Vuelta 1 · Develop: detalle completo, «Favorita» con `aria-pressed` y cambio instantáneo (`useFormStatus`), borrar con `<dialog>` nativo (con JS) o página `/recetas/[id]/borrar` (sin JS), aviso de borrado de un solo uso con cookie flash consumida en el proxy · Testing: **PASS** (112 Vitest, 104 e2e; revisó la seguridad del aviso contra el código de Next; observaciones: e2e para la cabecera inyectada y vigilar el truco `withJs` al actualizar Next)
 - (Humano) Pide acelerar: a partir de aquí revisiones de Testing más ligeras y T-07/T-08 unidas en una sola tarea.
+- Commit: dca59ce

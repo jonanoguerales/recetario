@@ -38,7 +38,8 @@ por el equipo de agentes (Orquestador, Develop y Testing).
 - **AC-10** Un usuario no puede ver ni editar la receta de otro (404) aunque conozca su id, y RLS lo impide
   también desde la API de Supabase.
 - **AC-11** Marcar favorita se refleja en el detalle y en el filtro de favoritas.
-- **AC-12** Ninguna pantalla salta al cargar (skeletons) y todo se usa bien en móvil (375 px) y con teclado.
+- **AC-12** Ninguna pantalla salta al cargar (el contenido llega completo en el HTML; cuando con JavaScript una
+  parte se recarga, se muestra un skeleton de la misma forma) y todo se usa bien en móvil (375 px) y con teclado.
 - **AC-14** La página «no encontrada» (URL inexistente o receta ajena/inexistente) responde 404 **y se ve
   completa también sin JavaScript** (título, explicación y enlace a «Mis recetas»). Nota: en Next 16.4 `notFound()`
   durante el render devuelve el cuerpo vacío sin JS; Testing comprobó que reescribir a una ruta inexistente desde

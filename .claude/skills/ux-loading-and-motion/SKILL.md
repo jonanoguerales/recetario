@@ -13,8 +13,9 @@ ayude a seguir lo que pasa, nunca al revés. Para APIs concretas, consulta adem�
 - Cada pod que carga datos exporta un **skeleton con la misma estructura y medidas** que su
   contenido real (mismas clases de layout, mismos `min-block-size`). Si el contenido cambia de
   altura al llegar, el skeleton está mal.
-- El skeleton del pod se usa **dos veces**: como `fallback` del `<Suspense>` de la página (servidor)
-  y como estado inicial del container (cliente). Así no hay un segundo cambio de forma.
+- En este proyecto el contenido imprescindible llega **completo en el HTML** (sin `<Suspense>`), porque sin JavaScript
+  un fallback en streaming nunca se sustituye (ver skill `nextjs-rendering-strategy`). El skeleton se usa cuando,
+  con JS, una parte se recarga en el cliente (p. ej. la lista al cambiar un filtro), con la misma forma que el contenido.
 - Accesibilidad: el contenedor del skeleton lleva `role="status"` y un texto `.visually-hidden`
   («Cargando…»); los bloques grises van con `aria-hidden="true"`. Nada de `aria-busy` en `div` genéricos.
 - Brillo del skeleton solo con `@media (prefers-reduced-motion: no-preference)`; si no, bloque estático.

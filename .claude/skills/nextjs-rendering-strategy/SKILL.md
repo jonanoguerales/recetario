@@ -22,8 +22,12 @@ una página en blanco (incumple D-21). Sin Cache Components el límite estático
 1. ¿El contenido es **igual para todo el mundo**? → **Estático**. Sin `cookies()` ni `getUser()` en esa ruta
    ni en sus layouts. Se sirve desde la CDN de Vercel.
 2. ¿Depende de **quién eres** o de la **URL** (sesión, recetas propias, filtros)? → **SSR dinámico** en Server
-   Components, con `<Suspense>` + skeleton de la misma forma (skill `ux-loading-and-motion`) alrededor de lo que
-   tarda, para que la cabecera y el resto lleguen al instante (streaming).
+   Components. **El contenido imprescindible llega completo en el HTML, sin `<Suspense>` ni `loading.tsx`**:
+   comprobado en T-03/T-04, sin JavaScript lo que va dentro de un `<Suspense>` en streaming no llega a mostrarse
+   (se queda el fallback), y D-21 exige que todo funcione sin JS. Al llegar completo, tampoco salta (AC-12).
+   `<Suspense>` en streaming solo para partes **no imprescindibles** y lentas, justificándolo.
+   El skeleton de la misma forma (skill `ux-loading-and-motion`) se usa cuando **con JS** algo se recarga en el
+   cliente (p. ej. al cambiar un filtro: `useTransition`/estado pendiente sobre la lista).
 3. ¿Hace falta **interactividad en el navegador** (estado pendiente, confirmar, optimista)? → una **isla de
    cliente** pequeña (`'use client'`) dentro de una página de servidor. Nunca una página entera de cliente.
 4. **Nunca** se piden datos desde el navegador con `useEffect`/`fetch` para pintar la página: los datos se leen
@@ -37,7 +41,7 @@ una página en blanco (incumple D-21). Sin Cache Components el límite estático
 | Portada pública | `/` | **Estática** (○) | Igual para todos. Cabecera pública con enlaces fijos («Entrar», «Crear cuenta», «Mis recetas»); si no hay sesión, `/recetas` ya redirige a `/login`. |
 | Página no encontrada | `not-found` | **Estática** | No depende de la petición. |
 | Login y registro | `/login`, `/registro` | **Estática** si se puede; si no, SSR justificado | El formulario es igual para todos. La redirección «con sesión → /recetas» la hace `proxy.ts`. Las Server Actions funcionan desde una página estática; comprobar el caso de error sin JS. |
-| Mis recetas (listado) | `/recetas?q=&categoria=&favoritas=` | **SSR dinámico + streaming** | Datos del usuario y filtros en la URL. Cabecera y filtros al instante; la lista dentro de `<Suspense>` con skeleton. |
+| Mis recetas (listado) | `/recetas?q=&categoria=&favoritas=` | **SSR dinámico** | Datos del usuario y filtros en la URL. La lista llega completa en el HTML (funciona sin JS). Filtros con un `<form method="get">`; con JS, al cambiar un filtro se muestra un skeleton de la lista mientras llega la nueva. |
 | Detalle, nueva, editar | `/recetas/[id]`, `/recetas/nueva`, `/recetas/[id]/editar` | **SSR dinámico** | Sesión y datos propios (RLS); `notFound()` si no es del usuario. |
 | Navegación con sesión | layout de las secciones privadas | **SSR** (en el layout privado, no en el raíz) | Email y «Cerrar sesión» llegan en el HTML: funcionan sin JS. |
 

@@ -16,8 +16,11 @@ ayude a seguir lo que pasa, nunca al revés. Para APIs concretas, consulta adem�
 - En este proyecto el contenido imprescindible llega **completo en el HTML** (sin `<Suspense>`), porque sin JavaScript
   un fallback en streaming nunca se sustituye (ver skill `nextjs-rendering-strategy`). El skeleton se usa cuando,
   con JS, una parte se recarga en el cliente (p. ej. la lista al cambiar un filtro), con la misma forma que el contenido.
-- Accesibilidad: el contenedor del skeleton lleva `role="status"` y un texto `.visually-hidden`
-  («Cargando…»); los bloques grises van con `aria-hidden="true"`. Nada de `aria-busy` en `div` genéricos.
+- Accesibilidad (guía `accessibility` de Modern Web Guidance, §8): el skeleton **no es una región viva**: todo él
+  va con `aria-hidden="true"`, sin `role="status"` ni texto «Cargando…» (las regiones vivas para estados
+  intermedios «solo crean ruido»). Lo que se anuncia es el **resultado** (p. ej. «3 recetas»), en **una única**
+  región `role="status"` por página que siempre está en el DOM. Nada de `aria-busy` en `div` genéricos.
+  (Corregido tras la revisión de Testing en T-05: antes esta skill pedía `role="status"` en el skeleton.)
 - Brillo del skeleton solo con `@media (prefers-reduced-motion: no-preference)`; si no, bloque estático.
 - Spinner solo para esperas cortas sin forma conocida (un botón enviando). Para una región con
   forma conocida, siempre skeleton.

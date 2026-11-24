@@ -52,3 +52,4 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 ## T-04b · Tests end-to-end con Playwright
 - Spec: D-34 (AC-1…AC-7, AC-10 y AC-12 de las pantallas existentes)
 - Vuelta 1 · Develop: Playwright 1.65 con Chromium en el proyecto, proyectos `desktop` / `mobile-375` / `no-js` + `setup` (sesiones guardadas para no pasar el límite de Supabase Auth), usuarios de prueba por SQL creados y borrados en cada ejecución, 50 tests nombrados por AC; documentación en Context7 (`/microsoft/playwright`) · Testing: **PASS** (50/50 dos veces sin intermitencias; rompió el código 3 veces a propósito y los tests lo detectaron; limpieza verificada por SQL; observación: el e2e de AC-5 debería comprobar más campos del detalle → T-06)
+- Commit: 838de10

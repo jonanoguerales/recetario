@@ -58,3 +58,4 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - Spec: specs/001-recetario.md (AC-8, AC-9, AC-12, AC-13)
 - (Incidencia) La ejecución de Develop se cortó por el límite de uso de la API y se retomó desde donde estaba.
 - Vuelta 1 · Develop: pod `recipe-list` (lista completa en el HTML, `<search>` + `<form method="get">`, búsqueda sin tildes con `normalizeSearchTerm`, filtros en la URL validados con Zod, paginación por URL, tarjetas accesibles, 3 estados vacíos, isla de cliente con filtros automáticos y skeleton de la misma forma); un e2e destapó un fallo real («Quitar filtros» con JS no vaciaba los controles) y lo corrigió · Testing: **PASS** (96 Vitest, 82 e2e, limpieza por SQL; observaciones: la skill `ux-loading-and-motion` contradice la guía de accesibilidad al poner `role="status"` en el skeleton; el auto-envío del `<select>` lanza una navegación por cada flecha del teclado; `*` actúa como comodín)
+- Commit: c687d3e

@@ -73,3 +73,4 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 ## T-07 · Portada estática, grupos de rutas, 404 sin JavaScript y usuario de prueba
 - Spec: specs/001-recetario.md (R7, R8, AC-13, AC-14)
 - Vuelta 1 · Develop: grupos `(public)`/`(auth)`/`(app)` sin cambiar URLs, layout raíz sin sesión (○ `/`, `/_not-found`, `/login`, `/registro`; ƒ zona privada), portada `home`, 404 completa sin JS reescribiendo desde `proxy.ts` a `/_no-encontrada` tras consultar la receta con RLS (las páginas siguen comprobando en servidor), `npm run db:seed-demo` idempotente con `admin@recetario.app` y 8 recetas (contraseña solo en `.env.local`) · Testing (revisión rápida): **PASS** (116 Vitest, 117 e2e, limpieza por SQL; observaciones: enlace a la portada en la 404, coste de la consulta del proxy, nombre reservado `/_no-encontrada`)
+- Commit: ca8a611

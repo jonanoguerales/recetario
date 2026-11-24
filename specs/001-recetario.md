@@ -19,7 +19,7 @@ por el equipo de agentes (Orquestador, Develop y Testing).
 - **R5 Marcar y desmarcar favorita** desde el detalle.
 - **R6 Privacidad**: nadie puede leer ni modificar recetas de otra persona, ni siquiera llamando a la API de
   Supabase directamente (RLS).
-- **R7 Usuario de prueba** `admin@recetario.app` (contraseña en `DEMO_PASSWORD`, fuera del repo; elegida por el humano)
+- **R7 Usuario de prueba** `admin@recetario.app` con contraseña `Admin` (elegida por el humano y publicada en el README para el evaluador; el script la lee de `DEMO_PASSWORD`)
   con 8 recetas de ejemplo, creado y restaurable con `npm run db:seed-demo`, para que el evaluador vea la app con datos.
 - **R8 Portada pública** que explica la app e invita a entrar o registrarse.
 

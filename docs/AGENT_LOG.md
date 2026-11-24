@@ -64,3 +64,8 @@ en bucle hasta que pasa. Aquí queda constancia de cada vuelta.
 - Origen: observaciones de Testing en T-05 (el Orquestador corrigió antes la skill `ux-loading-and-motion` en 93a9d23 y decidió el comportamiento de los filtros)
 - Vuelta 1 · Develop: skeleton con `aria-hidden` y una sola región `status` con el resultado; «Favoritas» al momento y categoría con la misma pausa de 400 ms que la búsqueda (una sola navegación aunque se recorran opciones); `*` → `_` en la búsqueda; foco de la tarjeta con `:has()` dentro de `@supports` · Testing: **PASS** (97 Vitest, 85 e2e; observaciones menores para T-08: e2e con `*` literal, `toBeFocused` en el select, esperas fijas en tests de tiempos)
 - Commit: 525d852
+
+## T-06 · Detalle de receta, favorita y borrar
+- Spec: specs/001-recetario.md (AC-5, AC-7, AC-10, AC-11, AC-12)
+- Vuelta 1 · Develop: detalle completo, «Favorita» con `aria-pressed` y cambio instantáneo (`useFormStatus`), borrar con `<dialog>` nativo (con JS) o página `/recetas/[id]/borrar` (sin JS), aviso de borrado de un solo uso con cookie flash consumida en el proxy · Testing: **PASS** (112 Vitest, 104 e2e; revisó la seguridad del aviso contra el código de Next; observaciones: e2e para la cabecera inyectada y vigilar el truco `withJs` al actualizar Next)
+- (Humano) Pide acelerar: a partir de aquí revisiones de Testing más ligeras y T-07/T-08 unidas en una sola tarea.

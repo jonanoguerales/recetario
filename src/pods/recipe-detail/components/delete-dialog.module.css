@@ -1,0 +1,40 @@
+/* Confirmation dialog of «Borrar». No `display` here: it would override the closed state. */
+.dialog {
+  /* The global reset (`* { margin: 0 }`) removes the margin: auto that centres a modal dialog. */
+  margin: auto;
+  inline-size: min(30rem, 100% - 2 * var(--page-gutter));
+  max-block-size: calc(100dvh - 2 * var(--page-gutter));
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+}
+
+/* Scrolling inside the dialog or over the backdrop must not scroll the page behind it. */
+.dialog:modal {
+  overscroll-behavior: contain;
+}
+
+.dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: oklch(0% 0 0 / 0.5);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  overflow-wrap: anywhere;
+}
+
+.explanation {
+  overflow-wrap: anywhere;
+}

@@ -1,21 +1,91 @@
-.edit {
+.root {
+  display: grid;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+
+/* «Volver a mis recetas»: a 44 px tall target. */
+.back {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-block-size: 3rem;
-  padding: var(--space-2) var(--space-6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
-  color: var(--color-text);
+  gap: var(--space-2);
+  min-block-size: var(--tap-target);
   font-weight: 600;
-  text-decoration: none;
 }
 
-.edit:hover {
-  border-color: var(--color-text-muted);
+.content {
+  display: grid;
+  gap: var(--space-8);
+  max-inline-size: 48rem;
+  min-inline-size: 0;
 }
 
-.note {
+.description {
   color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  overflow-wrap: anywhere;
+}
+
+/* Category, time and servings: term above, value below, side by side when they fit. */
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-8);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+}
+
+.fact {
+  display: grid;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.factTerm {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.factValue {
+  font-weight: 700;
+}
+
+.section {
+  display: grid;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+}
+
+/*
+ * The lists keep their native markers and display (no flex/grid, no list-style: none), so every
+ * browser exposes them as lists with their number of items.
+ */
+.ingredients,
+.steps {
+  padding-inline-start: 1.5em;
+  overflow-wrap: anywhere;
+}
+
+.ingredients > li + li {
+  margin-block-start: var(--space-2);
+}
+
+.steps > li {
+  padding-inline-start: var(--space-2);
+}
+
+.steps > li + li {
+  margin-block-start: var(--space-4);
+}
+
+.steps > li::marker {
+  color: var(--color-accent);
+  font-weight: 700;
 }

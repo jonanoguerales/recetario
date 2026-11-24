@@ -9,6 +9,11 @@ describe("RECIPE_ROUTES", () => {
     expect(RECIPE_ROUTES.detail(id)).toBe(`/recetas/${id}`);
     expect(RECIPE_ROUTES.edit(id)).toBe(`/recetas/${id}/editar`);
   });
+
+  it("AC-7: la confirmación de borrado sin JavaScript está en /recetas/[id]/borrar", () => {
+    const id = "0b9f1c3e-8a4d-4f6b-9c2e-1d3f5a7b9c0d";
+    expect(RECIPE_ROUTES.delete(id)).toBe(`/recetas/${id}/borrar`);
+  });
 });
 
 describe("isRecipeId", () => {

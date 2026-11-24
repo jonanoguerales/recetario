@@ -126,3 +126,31 @@ export async function deleteE2eUsers(sql: Sql, runId: string): Promise<number> {
 export async function deleteUserByEmail(email: string): Promise<void> {
   await withDb((sql) => sql`delete from auth.users where email = ${email}`);
 }
+
+/** Id of a test user, by email. */
+export async function userIdByEmail(sql: Sql, email: string): Promise<string> {
+  const [user] = await sql<{ id: string }[]>`select id from auth.users where email = ${email}`;
+  if (!user) throw new Error(`No existe el usuario de prueba ${email}`);
+  return user.id;
+}
+
+/** Id of a recipe of the user with this email, by title. */
+export async function recipeIdByTitle(sql: Sql, email: string, title: string): Promise<string> {
+  const [recipe] = await sql<{ id: string }[]>`
+    select r.id from public.recipes r join auth.users u on u.id = r.user_id
+    where u.email = ${email} and r.title = ${title}
+  `;
+  if (!recipe) throw new Error(`No existe la receta «${title}» de ${email}`);
+  return recipe.id;
+}
+
+/** What the database holds for a recipe (bypasses RLS), or null when it does not exist. */
+export async function findRecipeRow(
+  sql: Sql,
+  id: string,
+): Promise<{ title: string; is_favorite: boolean } | null> {
+  const [recipe] = await sql<{ title: string; is_favorite: boolean }[]>`
+    select title, is_favorite from public.recipes where id = ${id}
+  `;
+  return recipe ?? null;
+}

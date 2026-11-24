@@ -35,10 +35,15 @@ test.describe("recetas de A", () => {
     test("AC-5 · una receta válida se guarda y lleva a su detalle", FORM, async ({ page }, testInfo) => {
       const title = uniqueTitle("Gazpacho", testInfo.project.name);
       await createRecipe(page, { ...VALID_RECIPE, title, isFavorite: true });
-      await expect(page).toHaveTitle(/Recetario/);
-      // The list was revalidated and the detail is reachable again by URL.
+      await expect(page).toHaveTitle(`${title} · Recetario`);
+      // The detail shows everything that was saved, also after a fresh load.
       await page.reload();
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
+      await expect(page.getByText(VALID_RECIPE.description ?? "")).toBeVisible();
+      await expect(page.getByRole("main").locator("dl dd")).toHaveText(["Entrante", "15 min", "4 raciones"]);
+      await expect(page.getByRole("main").locator("ul > li")).toHaveText(["1 kg de tomates", "1 pepino", "Aceite de oliva"]);
+      await expect(page.getByRole("main").locator("ol > li")).toHaveText(["Triturar todo.", "Enfriar una hora."]);
+      await expect(page.getByRole("button", { name: "Favorita", exact: true })).toHaveAttribute("aria-pressed", "true");
     });
 
     test("AC-5 · con JavaScript el botón muestra «Guardando…» mientras se envía", JS_ONLY, async ({ page }, testInfo) => {

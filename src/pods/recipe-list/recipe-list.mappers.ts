@@ -1,27 +1,10 @@
-import { RECIPE_CATEGORIES, type RecipeCategory } from "@/core/recipes/recipe.model";
+import { categoryLabel, formatPrepTime, formatServings } from "@/core/recipes/recipe.format";
+import { RECIPE_CATEGORIES } from "@/core/recipes/recipe.model";
 import { RECIPE_ROUTES } from "@/core/recipes/recipe.routes";
 import type { RecipeListItemModel } from "./api";
 import { hasActiveFilters, RECIPE_LIST_PAGE_SIZE, type RecipeListFilters } from "./recipe-list.filters";
 import { buildRecipeListHref } from "./recipe-list.url";
 import type { RecipeCardVm, RecipeListEmptyState, RecipeListVm } from "./recipe-list.vm";
-
-/** Spanish label of a category («principal» → «Principal»). */
-export function categoryLabel(category: RecipeCategory): string {
-  return RECIPE_CATEGORIES.find((option) => option.value === category)?.label ?? category;
-}
-
-/** 25 → «25 min», 60 → «1 h», 95 → «1 h 35 min». */
-export function formatPrepTime(minutes: number): string {
-  if (minutes < 60) return `${minutes} min`;
-  const hours = Math.floor(minutes / 60);
-  const rest = minutes % 60;
-  return rest === 0 ? `${hours} h` : `${hours} h ${rest} min`;
-}
-
-/** 1 → «1 ración», 4 → «4 raciones». */
-export function formatServings(servings: number): string {
-  return servings === 1 ? "1 ración" : `${servings} raciones`;
-}
 
 function formatRecipeCount(count: number): string {
   return count === 1 ? "1 receta" : `${count} recetas`;

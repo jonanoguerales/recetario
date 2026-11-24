@@ -89,6 +89,7 @@ test.describe("AC-12 · diseño a 375 px con sesión", () => {
     { name: "/recetas/nueva", path: () => "/recetas/nueva", heading: () => "Nueva receta" },
     { name: "el detalle de una receta", path: (run) => `/recetas/${run.recipeOfA.id}`, heading: (run) => run.recipeOfA.title },
     { name: "la edición de una receta", path: (run) => `/recetas/${run.recipeOfA.id}/editar`, heading: () => "Editar receta" },
+    { name: "la confirmación de borrado", path: (run) => `/recetas/${run.recipeOfA.id}/borrar`, heading: () => "¿Borrar esta receta?" },
   ];
 
   for (const { name, path, heading } of privatePages) {
@@ -99,6 +100,28 @@ test.describe("AC-12 · diseño a 375 px con sesión", () => {
       await expectGoodMobileLayout(page);
     });
   }
+
+  test("AC-12 · el diálogo «¿Borrar esta receta?» a 375 px cabe en pantalla y sus botones miden 44 px", MOBILE, async ({ page }) => {
+    const run = getRun();
+    await page.goto(`/recetas/${run.recipeOfA.id}`);
+    await page.getByRole("button", { name: "Borrar", exact: true }).click();
+    const dialog = page.getByRole("dialog", { name: "¿Borrar esta receta?" });
+    await expect(dialog).toBeVisible();
+
+    const box = await dialog.boundingBox();
+    expect(box, "caja del diálogo").not.toBeNull();
+    expect(box!.x).toBeGreaterThanOrEqual(0);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(375);
+    for (const name of ["Sí, borrar", "Cancelar"]) {
+      const button = await dialog.getByRole("button", { name }).boundingBox();
+      expect(button!.height, `alto de «${name}»`).toBeGreaterThanOrEqual(44);
+    }
+    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    expect(scrollWidth, "ancho del documento a 375 px").toBeLessThanOrEqual(375);
+    // Nothing is deleted from here.
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+  });
 
   test("AC-12 · /recetas/nueva con errores a 375 px sigue sin scroll horizontal", MOBILE, async ({ page }) => {
     await page.goto("/recetas/nueva");

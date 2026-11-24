@@ -1,0 +1,21 @@
+/* Notice after deleting a recipe. It arrives with the page (in the HTML), so it never pushes content. */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-success);
+  border-radius: var(--radius-md);
+  background-color: light-dark(oklch(96% 0.03 150), oklch(25% 0.04 150));
+  color: var(--color-text);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.icon {
+  flex: none;
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  margin-block-start: 0.15em;
+  color: var(--color-success);
+}

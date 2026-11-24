@@ -1,13 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { RecipeListItemModel } from "./api";
 import type { RecipeListFilters } from "./recipe-list.filters";
-import {
-  categoryLabel,
-  formatPrepTime,
-  formatServings,
-  mapRecipeListToVm,
-  mapRecipeToCardVm,
-} from "./recipe-list.mappers";
+import { mapRecipeListToVm, mapRecipeToCardVm } from "./recipe-list.mappers";
 
 const NO_FILTERS: RecipeListFilters = { q: "", category: null, favoritesOnly: false, page: 1 };
 
@@ -35,14 +29,6 @@ describe("AC-8 · tarjeta de receta", () => {
       servingsLabel: "1 ración",
       isFavorite: true,
     });
-  });
-
-  it("AC-8: formatea tiempos y raciones", () => {
-    expect(formatPrepTime(25)).toBe("25 min");
-    expect(formatPrepTime(60)).toBe("1 h");
-    expect(formatPrepTime(1440)).toBe("24 h");
-    expect(formatServings(4)).toBe("4 raciones");
-    expect(categoryLabel("desayuno")).toBe("Desayuno");
   });
 });
 

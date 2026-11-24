@@ -1,2 +1,2 @@
-export { getRecipeDetail } from "./recipe-detail.api";
-export type { RecipeDetailModel } from "./recipe-detail.api-model";
+export { deleteRecipe, getRecipeDetail, getRecipeSummary, setRecipeFavorite } from "./recipe-detail.api";
+export type { RecipeDetailModel, RecipeSummaryModel } from "./recipe-detail.api-model";

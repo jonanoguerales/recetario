@@ -2,19 +2,26 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { isGuestOnlyPath, isPrivatePath, ROUTES } from "@/core/auth/routes";
 import { getSupabaseEnvOrNull } from "@/core/env";
+import { clearFlashCookie, takeFlash } from "@/core/flash/flash.proxy";
 
 /**
  * Refreshes the Supabase session cookies for the incoming request and applies the optimistic
  * route redirects (private route without session → /login; /login or /registro with session →
  * /recetas). This is only a fast path that answers with a real 307: pages and Server Actions
  * still check the user on the server with `requireUser()` (D-13).
+ * It also hands a one-time notice to the page that shows it (src/core/flash/flash.ts).
  * If Supabase is not configured yet, the request passes through untouched.
  */
 export async function updateSession(request: NextRequest): Promise<NextResponse> {
+  // Before the first NextResponse.next(): the page must receive the request without the cookie
+  // and with the notice header.
+  const flashTaken = takeFlash(request);
+  const finish = (result: NextResponse) => (flashTaken ? clearFlashCookie(result) : result);
+
   let response = NextResponse.next({ request });
 
   const env = getSupabaseEnvOrNull();
-  if (!env) return response;
+  if (!env) return finish(response);
 
   const supabase = createServerClient(env.url, env.publishableKey, {
     cookies: {
@@ -40,13 +47,13 @@ export async function updateSession(request: NextRequest): Promise<NextResponse>
   // Only page navigations (GET/HEAD) are redirected here; a Server Action POST must reach its
   // action, which checks the user itself.
   const isNavigation = request.method === "GET" || request.method === "HEAD";
-  if (!isNavigation) return response;
+  if (!isNavigation) return finish(response);
 
   const { pathname } = request.nextUrl;
-  if (!hasSession && isPrivatePath(pathname)) return redirectTo(request, response, ROUTES.login);
-  if (hasSession && isGuestOnlyPath(pathname)) return redirectTo(request, response, ROUTES.recipes);
+  if (!hasSession && isPrivatePath(pathname)) return finish(redirectTo(request, response, ROUTES.login));
+  if (hasSession && isGuestOnlyPath(pathname)) return finish(redirectTo(request, response, ROUTES.recipes));
 
-  return response;
+  return finish(response);
 }
 
 /** Redirect that keeps any refreshed session cookies set on `response`. */

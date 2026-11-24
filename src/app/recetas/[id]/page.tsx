@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { RecipeDetailContainer } from "@/pods/recipe-detail";
+import { getRecipeDetailTitle, RecipeDetailContainer } from "@/pods/recipe-detail";
 
-export const metadata: Metadata = { title: "Receta" };
+export async function generateMetadata({ params }: PageProps<"/recetas/[id]">): Promise<Metadata> {
+  const { id } = await params;
+  return { title: await getRecipeDetailTitle(id) };
+}
 
-// Provisional detail page: the full one arrives in T-06.
 export default async function RecipeDetailPage({ params }: PageProps<"/recetas/[id]">) {
   const { id } = await params;
   return <RecipeDetailContainer id={id} />;

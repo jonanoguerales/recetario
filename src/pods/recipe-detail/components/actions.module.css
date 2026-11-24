@@ -1,0 +1,78 @@
+/* Action buttons and links of the detail page and of the delete confirmation (48 px tall). */
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-block-size: 3rem;
+  padding: var(--space-2) var(--space-6);
+  /* --color-border-strong: the outline of a control needs 3:1 against the page. */
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.action:hover {
+  border-color: var(--color-text-muted);
+}
+
+/*
+ * «Favorita» pressed: filled background and filled star. The state never depends on colour alone:
+ * the star changes shape (outline ↔ filled) and assistive technologies get aria-pressed.
+ */
+.favorite[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.favorite[aria-pressed="true"]:hover {
+  background-color: light-dark(oklch(46% 0.16 40), oklch(80% 0.13 50));
+}
+
+.star {
+  flex: none;
+  inline-size: 1.25em;
+  block-size: 1.25em;
+}
+
+/* «Borrar»: destructive, in the danger colour (text and outline, plus the word itself). */
+.danger {
+  border-color: currentColor;
+  color: var(--color-danger);
+}
+
+.danger:hover {
+  border-color: currentColor;
+  background-color: light-dark(oklch(96% 0.03 27), oklch(26% 0.05 27));
+}
+
+/* «Sí, borrar»: the confirmed destructive action. */
+.dangerSolid {
+  border-color: var(--color-danger);
+  background-color: var(--color-danger);
+  color: light-dark(oklch(100% 0 0), oklch(18% 0.03 27));
+  font-weight: 700;
+}
+
+.dangerSolid:hover:not(:disabled) {
+  background-color: light-dark(oklch(44% 0.18 27), oklch(80% 0.13 25));
+}
+
+/* No opacity change while busy: the «Borrando…» text says it and the contrast is kept. */
+.dangerSolid:disabled {
+  cursor: progress;
+}
+
+/* Row of actions that wraps on narrow screens. */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
